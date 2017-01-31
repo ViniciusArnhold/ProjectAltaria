@@ -41,8 +41,7 @@ public class App {
                         .withToken(clientToken)
                         .login();
 
-        String appName = discordClient.getApplicationName();
-        System.out.println(appName);
+        System.out.println(discordClient.getApplicationName());
         System.out.println(discordClient.getApplicationOwner());
         System.out.println(discordClient.getDescription());
         System.out.println(discordClient.getMessages());
