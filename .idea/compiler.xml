@@ -9,7 +9,7 @@
         <module name="Project Altaria" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="Project Altaria" target="1.8" />
     </bytecodeTargetLevel>
   </component>
