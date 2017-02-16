@@ -8,9 +8,6 @@ import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.RateLimitException;
 
-/**
- * Hello world!
- */
 public class App {
 
     public static void main(String[] args) throws DiscordException {
@@ -34,6 +31,5 @@ public class App {
         } catch (RateLimitException e) {
             e.printStackTrace();
         }
-
     }
 }

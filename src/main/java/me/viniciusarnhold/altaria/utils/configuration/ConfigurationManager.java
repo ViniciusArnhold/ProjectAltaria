@@ -1,6 +1,5 @@
 package me.viniciusarnhold.altaria.utils.configuration;
 
-import com.google.common.collect.Lists;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
@@ -12,11 +11,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
-
-import static me.viniciusarnhold.altaria.utils.configuration.ConfigurationManager.ConfigurationCache.*;
 
 public final class ConfigurationManager {
 
@@ -30,7 +26,6 @@ public final class ConfigurationManager {
 
     private ConfigurationManager() {
         loadConfigurationManager();
-        fillInCache();
     }
 
     public static ConfigurationManager getInstance() {
@@ -55,22 +50,6 @@ public final class ConfigurationManager {
         }
     }
 
-    private void fillInCache() {
-        config.lock(LockMode.READ);
-
-        ClientID.setValue(config.get(ClientID.type(), ClientID.key(), ClientID.defaultValue()));
-
-        ClientSecret.setValue(config.get(ClientSecret.type(), ClientSecret.key(), ClientSecret.defaultValue()));
-
-        BotToken.setValue(config.get(BotToken.type(), BotToken.key(), BotToken.defaultValue()));
-
-        if (BotToken.setValue("") == null) {
-            return;
-        }
-
-        config.unlock(LockMode.READ);
-    }
-
     public final Configuration configuration() {
         return this.config;
     }
@@ -80,8 +59,11 @@ public final class ConfigurationManager {
         public static final ConfigurationCache<Long> ClientID = new ConfigurationCache<>("client.id", -1L, Long.class);
         public static final ConfigurationCache<String> ClientSecret = new ConfigurationCache<>("client.secret", "", String.class);
         public static final ConfigurationCache<String> BotToken = new ConfigurationCache<>("bot.token", "", String.class);
-
         private static AtomicBoolean isCacheInitialized = new AtomicBoolean(false);
+
+        static {
+            ensureCached();
+        }
 
         private final String keyName;
 
@@ -94,17 +76,20 @@ public final class ConfigurationManager {
             this.defaultValue = Objects.requireNonNull(defaultValue);
             this.type = Objects.requireNonNull(type);
             this.actualValue = defaultValue;
-            ensureCached();
         }
 
         private static final void ensureCached() {
-            if (isCacheInitialized.compareAndSet(false, true)) {
-                log.info("Loading Configuration Manager {}", ConfigurationManager.class.getSimpleName());
-            }
-        }
+            Configuration config = ConfigurationManager.getInstance().configuration();
 
-        public static final List<ConfigurationCache<?>> values() {
-            return Lists.newArrayList(ClientID, ClientSecret, BotToken);
+            config.lock(LockMode.READ);
+
+            ClientID.setValue(config.get(ClientID.type(), ClientID.key(), ClientID.defaultValue()));
+
+            ClientSecret.setValue(config.get(ClientSecret.type(), ClientSecret.key(), ClientSecret.defaultValue()));
+
+            BotToken.setValue(config.get(BotToken.type(), BotToken.key(), BotToken.defaultValue()));
+
+            config.unlock(LockMode.READ);
         }
 
         public String key() {
