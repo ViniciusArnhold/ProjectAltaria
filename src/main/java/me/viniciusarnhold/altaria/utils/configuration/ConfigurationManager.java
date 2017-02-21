@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public final class ConfigurationManager {
 
@@ -54,12 +53,11 @@ public final class ConfigurationManager {
         return this.config;
     }
 
-    public static final class ConfigurationCache<T> {
+    public static final class Configurations<T> {
 
-        public static final ConfigurationCache<Long> ClientID = new ConfigurationCache<>("client.id", -1L, Long.class);
-        public static final ConfigurationCache<String> ClientSecret = new ConfigurationCache<>("client.secret", "", String.class);
-        public static final ConfigurationCache<String> BotToken = new ConfigurationCache<>("bot.token", "", String.class);
-        private static AtomicBoolean isCacheInitialized = new AtomicBoolean(false);
+        public static final Configurations<Long> ClientID = new Configurations<>("client.id", -1L, Long.class);
+        public static final Configurations<String> ClientSecret = new Configurations<>("client.secret", "", String.class);
+        public static final Configurations<String> BotToken = new Configurations<>("bot.token", "", String.class);
 
         static {
             ensureCached();
@@ -71,7 +69,7 @@ public final class ConfigurationManager {
         private final Class<T> type;
         private T actualValue;
 
-        public ConfigurationCache(@NotNull String keyName, @NotNull T defaultValue, @NotNull Class<T> type) {
+        public Configurations(@NotNull String keyName, @NotNull T defaultValue, @NotNull Class<T> type) {
             this.keyName = Objects.requireNonNull(keyName);
             this.defaultValue = Objects.requireNonNull(defaultValue);
             this.type = Objects.requireNonNull(type);
