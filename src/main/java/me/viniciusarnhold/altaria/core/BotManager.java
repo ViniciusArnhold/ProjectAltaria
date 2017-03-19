@@ -1,16 +1,17 @@
 package me.viniciusarnhold.altaria.core;
 
 import me.viniciusarnhold.altaria.events.EventManager;
-import me.viniciusarnhold.altaria.excpetions.BotLoginFailedException;
+import me.viniciusarnhold.altaria.exceptions.BotLoginFailedException;
 import me.viniciusarnhold.altaria.utils.configuration.ConfigurationManager;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import sx.blah.discord.api.ClientBuilder;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.handle.obj.Permissions;
+import sx.blah.discord.handle.obj.Status;
 import sx.blah.discord.util.BotInviteBuilder;
 import sx.blah.discord.util.DiscordException;
-import sx.blah.discord.util.RateLimitException;
 
 import java.text.MessageFormat;
 import java.util.EnumSet;
@@ -22,38 +23,50 @@ import java.util.EnumSet;
  */
 public class BotManager implements AutoCloseable {
 
-    private static final Logger logger = LogManager.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
+
+    public static final String EMAIL = "altaria.bot@gmail.com";
+    public static final String BOT_NAME = "AltariaBot";
+    public static final String REPO_URL = "https://github.com/ViniciusArnhold/ProjectAltaria";
+    @NotNull
     private static BotManager ourInstance = new BotManager();
+    private String invite;
     private IDiscordClient discordClient;
 
     private BotManager() {
     }
 
+    @NotNull
     public static BotManager getInstance() {
         return ourInstance;
     }
 
     public final void start() {
+        LOGGER.traceEntry();
+
         final IDiscordClient client;
         try {
             client = new ClientBuilder()
                     .withToken(ConfigurationManager.Configurations.BotToken.value())
                     .setDaemon(false)
-                    .login(false);
+                    .login();
         } catch (DiscordException e) {
-            logger.fatal("Fail to login to discord.", e);
+            LOGGER.fatal("Fail to login to discord.", e);
             throw new BotLoginFailedException(e);
         }
         this.discordClient = client;
+        this.discordClient.getShards().forEach(s -> s.changeStatus(Status.game("IntelliJ IDEA")));
 
-        String invitation = new BotInviteBuilder(discordClient)
+        this.invite = new BotInviteBuilder(discordClient)
                 .withClientID(ConfigurationManager.Configurations.ClientID.value().toString())
-                .withPermissions(EnumSet.of(Permissions.SEND_MESSAGES, Permissions.READ_MESSAGE_HISTORY, Permissions.READ_MESSAGES))
+                .withPermissions(EnumSet.of(Permissions.ADMINISTRATOR))
                 .build();
-        System.out.println(MessageFormat.format("Bot Created, invitation link: {0}", invitation));
+        System.out.println(MessageFormat.format("Bot Created, invitation link: {0}", invite));
 
 
         addEventManager();
+
+        LOGGER.traceExit();
     }
 
     private void addEventManager() {
@@ -62,19 +75,21 @@ public class BotManager implements AutoCloseable {
 
     }
 
+    public String inviteUrl() {
+        return this.invite;
+    }
+
+
     @Override
     public void close() throws Exception {
-        logger.traceEntry();
+        LOGGER.traceEntry();
         if (discordClient == null) {
-            logger.warn("Method close called on 'null' discordClient");
-        } else {
-            logger.warn(" Disconecting from Discord.");
-
-            try {
-                discordClient.logout();
-            } catch (RateLimitException e) {
-                logger.error("Erro in client logout", e);
-            }
+            LOGGER.warn("Method close called on 'null' discordClient");
+            return;
         }
+        LOGGER.warn(" Disconecting from Discord.");
+        discordClient.logout();
+
+        LOGGER.traceExit();
     }
 }

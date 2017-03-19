@@ -78,3 +78,4 @@ target/
 # eBook build output
 ### NetBeans template
 /src/main/resources/properties/
+/altaria-main.log

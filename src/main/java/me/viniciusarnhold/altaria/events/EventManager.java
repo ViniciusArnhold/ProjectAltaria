@@ -1,11 +1,15 @@
 package me.viniciusarnhold.altaria.events;
 
-import me.viniciusarnhold.altaria.events.thirdparty.GoogleSearchEvent;
-import me.viniciusarnhold.altaria.events.utils.Command;
-import me.viniciusarnhold.altaria.events.utils.CommandBuilder;
-import me.viniciusarnhold.altaria.events.utils.RegexEvents;
+import me.viniciusarnhold.altaria.command.common.InviteCommand;
+import me.viniciusarnhold.altaria.command.common.PingCommand;
+import me.viniciusarnhold.altaria.command.common.UptimeCommand;
+import me.viniciusarnhold.altaria.command.pool.PoolCommand;
+import me.viniciusarnhold.altaria.command.random.XKCDCommand;
+import me.viniciusarnhold.altaria.events.interfaces.IReceiver;
+import me.viniciusarnhold.altaria.events.receivers.MessageReceivedEventReceiver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.api.events.IListener;
@@ -13,7 +17,6 @@ import sx.blah.discord.modules.IModule;
 
 import java.util.HashSet;
 import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 /**
  * Created by Vinicius.
@@ -24,36 +27,21 @@ public class EventManager implements IModule {
 
     public static final String MAIN_COMMAND_NAME = "!alt";
 
-    private static final ConcurrentSkipListSet<Command> COMMANDS = new ConcurrentSkipListSet<>();
-
     private static final Logger logger = LogManager.getLogger();
+    private static final EventManager ourInstance = new EventManager();
+    private static final Set<IReceiver> eventListeners = new HashSet<>();
+    private static final String moduleName = "Project Altaria";
+    private static final String moduleVersion = "1.0";
+    private static final String moduleMinimumVersion = "2.6";
+    private static final String author = "Vinicius Pegorini Arnhold";
     private static IDiscordClient discordClient;
-    private static EventManager ourInstance = new EventManager();
-    private static Set<IDiscordEvent> eventListeners = new HashSet<>();
-    private String moduleName = "Project Altaria";
-    private String moduleVersion = "1.0";
-    private String moduleMinimumVersion = "2.6";
-    private String author = "Vinicius Pegorini Arnhold";
 
     public EventManager() {
     }
 
+    @NotNull
     public static EventManager getInstance() {
         return ourInstance;
-    }
-
-    public static final boolean registerCommand(String command, String help, RegexEvents regex) {
-        return COMMANDS.add(
-                new CommandBuilder()
-                        .command(command)
-                        .helpText(help)
-                        .regex(regex)
-                        .create()
-        );
-    }
-
-    public static Set<Command> getCommands() {
-        return COMMANDS;
     }
 
     public static IDiscordClient getDiscordClient() {
@@ -64,48 +52,59 @@ public class EventManager implements IModule {
     public boolean enable(IDiscordClient client) {
         discordClient = client;
 
-        //Simple Events
-        registerListener(SingleArgsEvent.getInstance());
-        registerListener(new NoArgsEvent());
-
-        //Third Party APIs Event Handlers
-        registerListener(GoogleSearchEvent.getInstance());
-        //Complex Events
-
+        discordClient.getDispatcher().registerListener(PoolCommand.getInstance());
+        discordClient.getDispatcher().registerListener(new InviteCommand());
+        discordClient.getDispatcher().registerListener(new XKCDCommand());
+        discordClient.getDispatcher().registerListener(new PingCommand());
+        discordClient.getDispatcher().registerListener(new UptimeCommand());
+        registerListener(MessageReceivedEventReceiver.getInstace());
 
         return true;
     }
 
-    private <T extends IDiscordEvent & IListener<? extends Event>> void registerListener(T eventListener) {
+    private <T extends IReceiver & IListener<? extends Event>> void registerListener(@NotNull T eventListener) {
         discordClient.getDispatcher().registerListener(eventListener);
         eventListeners.add(eventListener);
     }
 
     @Override
     public void disable() {
-        for (IDiscordEvent listener :
+        Exception e = null;
+        for (IReceiver receiver :
                 eventListeners) {
-            listener.terminate();
+            try {
+                receiver.disable();
+            } catch (Exception ex) {
+                logger.warn("Exception on disable call to receiver " + receiver.getClass().getSimpleName(), ex);
+                e = ex;
+            }
+        }
+        if (e != null) {
+            throw new RuntimeException(e);
         }
     }
 
+    @NotNull
     @Override
     public String getName() {
-        return this.moduleName;
+        return moduleName;
     }
 
+    @NotNull
     @Override
     public String getAuthor() {
-        return this.author;
+        return author;
     }
 
+    @NotNull
     @Override
     public String getVersion() {
-        return this.moduleVersion;
+        return moduleVersion;
     }
 
+    @NotNull
     @Override
     public String getMinimumDiscord4JVersion() {
-        return this.moduleMinimumVersion;
+        return moduleMinimumVersion;
     }
 }

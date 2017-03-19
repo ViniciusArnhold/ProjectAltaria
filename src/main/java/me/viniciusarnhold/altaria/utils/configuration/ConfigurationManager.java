@@ -19,6 +19,7 @@ public final class ConfigurationManager {
 
     private static final Logger log = LogManager.getLogger(ConfigurationManager.class);
 
+    @NotNull
     private static ConfigurationManager ourInstance = new ConfigurationManager();
 
     private Configuration config;
@@ -27,6 +28,7 @@ public final class ConfigurationManager {
         loadConfigurationManager();
     }
 
+    @NotNull
     public static ConfigurationManager getInstance() {
         return ourInstance;
     }
@@ -58,10 +60,11 @@ public final class ConfigurationManager {
         public static final Configurations<Long> ClientID = new Configurations<>("client.id", -1L, Long.class);
         public static final Configurations<String> ClientSecret = new Configurations<>("client.secret", "", String.class);
         public static final Configurations<String> BotToken = new Configurations<>("bot.token", "", String.class);
-
-        static {
-            ensureCached();
-        }
+        public static final Configurations<String> LeagueOauthToken = new Configurations<>("bot.apis.league.oauth.token", "", String.class);
+        public static final Configurations<Boolean> LeagueAPIMode = new Configurations<>("bot.apis.league.config.async", true, Boolean.class);
+        public static final Configurations<String> GoogleAPIToken = new Configurations<>("bot.apis.google.api.token", "", String.class);
+        public static final Configurations<String> GoogleClientID = new Configurations<>("bot.apis.google.client.id", "", String.class);
+        public static final Configurations<String> GoogleClientSecret = new Configurations<>("bot.apis.google.client.secret", "", String.class);
 
         private final String keyName;
 
@@ -74,18 +77,15 @@ public final class ConfigurationManager {
             this.defaultValue = Objects.requireNonNull(defaultValue);
             this.type = Objects.requireNonNull(type);
             this.actualValue = defaultValue;
+            ensureCached();
         }
 
-        private static final void ensureCached() {
-            Configuration config = ConfigurationManager.getInstance().configuration();
+        private final void ensureCached() {
+            final Configuration config = ConfigurationManager.getInstance().configuration();
 
             config.lock(LockMode.READ);
 
-            ClientID.setValue(config.get(ClientID.type(), ClientID.key(), ClientID.defaultValue()));
-
-            ClientSecret.setValue(config.get(ClientSecret.type(), ClientSecret.key(), ClientSecret.defaultValue()));
-
-            BotToken.setValue(config.get(BotToken.type(), BotToken.key(), BotToken.defaultValue()));
+            populate(config);
 
             config.unlock(LockMode.READ);
         }
@@ -110,5 +110,8 @@ public final class ConfigurationManager {
             return this.actualValue = actualValue;
         }
 
+        private final void populate(@NotNull Configuration config) {
+            setValue(config.get(type(), key(), defaultValue()));
+        }
     }
 }
