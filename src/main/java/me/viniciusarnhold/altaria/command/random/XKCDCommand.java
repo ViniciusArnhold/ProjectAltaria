@@ -15,6 +15,8 @@ import okhttp3.Response;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 import sx.blah.discord.util.DiscordException;
 import sx.blah.discord.util.MissingPermissionsException;
@@ -55,24 +57,24 @@ public class XKCDCommand extends AbstractCommand {
      * @param event The event object.
      */
     @Override
-    public void handle(MessageReceivedEvent event) {
+    public void handle(@NotNull MessageReceivedEvent event) {
         if (!isXKCDCommand(event)) {
             return;
         }
         try {
             logger.traceEntry("Received XKCD Command {}", event.getMessage().getContent());
-            List<String> args = Commands.splitByWhitespace(event.getMessage().getContent());
+            @NotNull List<String> args = Commands.splitByWhitespace(event.getMessage().getContent());
             RequestBuilder requestBuilder =
                     MessageUtils.getDefaultRequestBuilder(event.getMessage())
                             .doAction(Actions.ofSuccess());
 
-            if (args.size() < 2 || args.get(1).equalsIgnoreCase("latest")) {
+            if (args.size() < 2 || "latest".equalsIgnoreCase(args.get(1))) {
 
                 requestBuilder.andThen(getComic(XKCD_LATEST_URL, event));
 
-            } else if (args.get(1).equalsIgnoreCase("random")) {
+            } else if ("random".equalsIgnoreCase(args.get(1))) {
 
-                XKCDComic latest = getLatestComic();
+                @Nullable XKCDComic latest = getLatestComic();
                 int num;
                 if (latest != null) {
                     num = ThreadLocalRandom.current().nextInt(1, latest.getComicNumber() + 1);
@@ -111,7 +113,7 @@ public class XKCDCommand extends AbstractCommand {
 
             if (response.isSuccessful()) {
 
-                final ObjectMapper mapper = new ObjectMapper();
+                @NotNull final ObjectMapper mapper = new ObjectMapper();
 
                 return mapper.readValue(response.body().string(), XKCDComic.class);
             }
@@ -121,7 +123,7 @@ public class XKCDCommand extends AbstractCommand {
         return null;
     }
 
-    private RequestBuilder.IRequestAction getComic(String url, MessageReceivedEvent event) throws RateLimitException, DiscordException, MissingPermissionsException {
+    private RequestBuilder.IRequestAction getComic(@NotNull String url, @NotNull MessageReceivedEvent event) throws RateLimitException, DiscordException, MissingPermissionsException {
 
         Request request = new Request.Builder()
                 .url(url)
@@ -131,7 +133,7 @@ public class XKCDCommand extends AbstractCommand {
 
             if (response.isSuccessful()) {
 
-                final ObjectMapper mapper = new ObjectMapper();
+                @NotNull final ObjectMapper mapper = new ObjectMapper();
 
                 final XKCDComic comic = mapper.readValue(response.body().string(), XKCDComic.class);
 
@@ -172,7 +174,7 @@ public class XKCDCommand extends AbstractCommand {
         }
     }
 
-    private boolean isXKCDCommand(MessageReceivedEvent event) {
+    private boolean isXKCDCommand(@NotNull MessageReceivedEvent event) {
         return !event.getMessage().getChannel().isPrivate() &&
                 !event.getMessage().getAuthor().isBot() &&
                 MessageUtils.isMyCommand(event.getMessage(), this);

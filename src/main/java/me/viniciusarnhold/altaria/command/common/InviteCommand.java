@@ -47,7 +47,7 @@ public class InviteCommand implements IListener<MessageReceivedEvent>, ICommand 
      * @param event The event object.
      */
     @Override
-    public void handle(MessageReceivedEvent event) {
+    public void handle(@NotNull MessageReceivedEvent event) {
         if (!isInviteCommand(event)) {
             return;
         }
@@ -55,10 +55,10 @@ public class InviteCommand implements IListener<MessageReceivedEvent>, ICommand 
 
             logger.traceEntry("Received Invite command with {}", () -> event.getMessage().getContent());
 
-            List<String> args = Commands.splitByWhitespace(event.getMessage().getContent().trim());
+            @NotNull List<String> args = Commands.splitByWhitespace(event.getMessage().getContent().trim());
 
             boolean isLocal = false;
-            if (args.size() > 1 && args.get(1).equals("here")) {
+            if (args.size() > 1 && "here".equals(args.get(1))) {
                 isLocal = true;
             }
 
@@ -67,7 +67,7 @@ public class InviteCommand implements IListener<MessageReceivedEvent>, ICommand 
                 IChannel channel;
                 try {
                     channel = event.getMessage().getAuthor().getOrCreatePMChannel();
-                } catch (DiscordException | RateLimitException de) {
+                } catch (@NotNull DiscordException | RateLimitException de) {
                     logger.error(de);
                     channel = event.getMessage().getChannel();
                 }
@@ -92,7 +92,7 @@ public class InviteCommand implements IListener<MessageReceivedEvent>, ICommand 
         }
     }
 
-    private boolean isInviteCommand(MessageReceivedEvent event) {
+    private boolean isInviteCommand(@NotNull MessageReceivedEvent event) {
         return !event.getMessage().getChannel().isPrivate() &&
                 !event.getMessage().getAuthor().isBot() &&
                 MessageUtils.isMyCommand(event.getMessage(), this);

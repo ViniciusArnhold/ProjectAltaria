@@ -22,20 +22,18 @@ import java.util.concurrent.TimeUnit;
  */
 public class Timers {
 
-    private static Timer cacheCleanUpTimer;
-
     @Contract(" -> fail")
     private Timers() {
         throw new Error("No init");
     }
 
     @NotNull
-    public static final CacheCleanUpService cacheCleanUpTimer() {
+    public static CacheCleanUpService cacheCleanUpTimer() {
         return CacheCleanUpService.getInstance();
     }
 
     @NotNull
-    public static final MessageDeletionService messageDeletionService() {
+    public static MessageDeletionService messageDeletionService() {
         return MessageDeletionService.getInstance();
     }
 
@@ -70,7 +68,7 @@ public class Timers {
         }
 
         @NotNull
-        private final TimerTask newMessageDeletionTask(@NotNull IMessage message) {
+        private TimerTask newMessageDeletionTask(@NotNull IMessage message) {
             return new TimerTask() {
                 @Override
                 public void run() {
@@ -96,7 +94,7 @@ public class Timers {
         }
 
         @NotNull
-        private static final CacheCleanUpService getInstance() {
+        private static CacheCleanUpService getInstance() {
             return ourInstance;
         }
 
@@ -112,7 +110,7 @@ public class Timers {
         }
 
         @NotNull
-        private final <K, V> TimerTask createNewCleanUpTask(@NotNull final Map<K, V> mapToClean, final K keyToClean, V expectedValue) {
+        private <K, V> TimerTask createNewCleanUpTask(@NotNull final Map<K, V> mapToClean, final K keyToClean, V expectedValue) {
             return new TimerTask() {
                 @Override
                 public void run() {

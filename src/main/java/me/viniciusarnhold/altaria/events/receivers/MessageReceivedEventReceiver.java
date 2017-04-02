@@ -29,7 +29,7 @@ public class MessageReceivedEventReceiver implements IReceiver, IListener<Messag
     }
 
     @NotNull
-    public static final MessageReceivedEventReceiver getInstace() {
+    public static MessageReceivedEventReceiver getInstace() {
         return ourInstance;
     }
 
@@ -56,10 +56,10 @@ public class MessageReceivedEventReceiver implements IReceiver, IListener<Messag
     public void handle(@NotNull final MessageReceivedEvent event) {
         logger.traceEntry("MessageReceivedEventReceiver will handle {}.", event::getMessage);
 
-        String text = event.getMessage().getContent().trim();
+        @NotNull String text = event.getMessage().getContent().trim();
 
-        boolean someoneHandled = false;
-        Matcher matcher = Regexes.BOT_COMMAND_NO_ARGS.pattern().matcher(text);
+        boolean someoneHandled;
+        @NotNull Matcher matcher = Regexes.BOT_COMMAND_NO_ARGS.pattern().matcher(text);
 
         if (!matcher.find()) {
             logger.traceExit("Message {} received but did not pass the command regex.", text);

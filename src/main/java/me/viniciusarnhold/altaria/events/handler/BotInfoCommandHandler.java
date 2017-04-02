@@ -37,10 +37,16 @@ public final class BotInfoCommandHandler implements ICommandHandler {
 
     private static final BotInfoCommandHandler ourInstance = new BotInfoCommandHandler();
 
+
+    @org.jetbrains.annotations.NotNull
     @NotNull
     private static final DateTimeFormatter DATE_TIME_FORMATTER;
+
+    @org.jetbrains.annotations.NotNull
     @NotNull
     private static final Commands HELP_COMMAND;
+
+    @org.jetbrains.annotations.NotNull
     @NotNull
     private static final Commands INFO_COMMAND;
     private static final List<Commands> commands;
@@ -64,14 +70,16 @@ public final class BotInfoCommandHandler implements ICommandHandler {
 
     }
 
+
+    @org.jetbrains.annotations.NotNull
     @NotNull
-    public static final BotInfoCommandHandler getInstance() {
+    public static BotInfoCommandHandler getInstance() {
         return ourInstance;
     }
 
-    private void showInfo(@NotNull MessageReceivedEvent event, boolean verbose) throws RateLimitException, DiscordException, MissingPermissionsException {
-        StringBuilder builder = new StringBuilder(verbose ? 300 : 150);
-        EventManager manager = EventManager.getInstance();
+    private void showInfo(@org.jetbrains.annotations.NotNull @NotNull MessageReceivedEvent event, boolean verbose) throws RateLimitException, DiscordException, MissingPermissionsException {
+        @org.jetbrains.annotations.NotNull StringBuilder builder = new StringBuilder(verbose ? 300 : 150);
+        @org.jetbrains.annotations.NotNull EventManager manager = EventManager.getInstance();
         builder.append(manager.getName())
                 .append(" - Version: ")
                 .append(manager.getVersion())
@@ -100,15 +108,15 @@ public final class BotInfoCommandHandler implements ICommandHandler {
                 .send();
     }
 
-    private void showHelp(@NotNull MessageReceivedEvent event, boolean verbose) throws RateLimitException, DiscordException, MissingPermissionsException {
+    private void showHelp(@org.jetbrains.annotations.NotNull @NotNull MessageReceivedEvent event, boolean verbose) throws RateLimitException, DiscordException, MissingPermissionsException {
         if (verbose) {
 
-            StringWriter writer = new StringWriter(1000);
-            PrintWriter pWriter = new PrintWriter(writer);
+            @org.jetbrains.annotations.NotNull StringWriter writer = new StringWriter(1000);
+            @org.jetbrains.annotations.NotNull PrintWriter pWriter = new PrintWriter(writer);
             pWriter.append("Heres  everything I can do!");
             pWriter.append(lineSeparator());
 
-            for (Commands command : Commands.getAllCommands()) {
+            for (@org.jetbrains.annotations.NotNull Commands command : Commands.getAllCommands()) {
                 new HelpFormatter().printHelp(
                         pWriter,
                         100,
@@ -138,8 +146,8 @@ public final class BotInfoCommandHandler implements ICommandHandler {
         }
 
 
-        Set<Commands> commands = Commands.getAllCommands();
-        StringWriter writer = new StringWriter(1000);
+        @org.jetbrains.annotations.NotNull Set<Commands> commands = Commands.getAllCommands();
+        @org.jetbrains.annotations.NotNull StringWriter writer = new StringWriter(1000);
         PrintWriter pWriter = new PrintWriter(writer)
                 .append("List of commands this bot accepts, all commands must start with ")
                 .append(EventManager.MAIN_COMMAND_NAME)
@@ -147,7 +155,7 @@ public final class BotInfoCommandHandler implements ICommandHandler {
                 .append("Commands names are case-insensitive.")
                 .append(lineSeparator());
 
-        for (Commands command :
+        for (@org.jetbrains.annotations.NotNull Commands command :
                 commands) {
             new HelpFormatter().printUsage(pWriter,
                     100,
@@ -163,14 +171,13 @@ public final class BotInfoCommandHandler implements ICommandHandler {
                 .send();
 
         pWriter.close();
-        return;
     }
 
     @Override
-    public boolean handle(@NotNull MessageReceivedEvent event, String commandName, @NotNull String matchedText) throws RateLimitException, DiscordException, MissingPermissionsException {
+    public boolean handle(@org.jetbrains.annotations.NotNull @NotNull MessageReceivedEvent event, String commandName, @org.jetbrains.annotations.NotNull @NotNull String matchedText) throws RateLimitException, DiscordException, MissingPermissionsException {
 
         if (INFO_COMMAND.mainCommand().equalsIgnoreCase(commandName)) {
-            DefaultParser parser = new DefaultParser();
+            @org.jetbrains.annotations.NotNull DefaultParser parser = new DefaultParser();
             try {
                 CommandLine cmd = parser.parse(INFO_COMMAND.options(), Commands.splitByWhitespace(matchedText).toArray(new String[]{}));
 
@@ -187,7 +194,7 @@ public final class BotInfoCommandHandler implements ICommandHandler {
         }
 
         if (HELP_COMMAND.mainCommand().equalsIgnoreCase(commandName)) {
-            DefaultParser parser = new DefaultParser();
+            @org.jetbrains.annotations.NotNull DefaultParser parser = new DefaultParser();
             try {
                 CommandLine cmd = parser.parse(HELP_COMMAND.options(), Commands.splitByWhitespace(matchedText).toArray(new String[]{}));
 

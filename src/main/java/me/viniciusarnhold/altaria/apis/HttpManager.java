@@ -1,6 +1,8 @@
 package me.viniciusarnhold.altaria.apis;
 
 import okhttp3.OkHttpClient;
+import org.jetbrains.annotations.NotNull;
+
 
 /**
  * Created by Vinicius.
@@ -8,7 +10,11 @@ import okhttp3.OkHttpClient;
  * @since ${PROJECT_VERSION}
  */
 public class HttpManager {
+
+    @NotNull
     private static final OkHttpClient defaultHttpClient;
+
+    @NotNull
     private static HttpManager ourInstance = new HttpManager();
 
     static {
@@ -18,10 +24,14 @@ public class HttpManager {
     private HttpManager() {
     }
 
+
+    @NotNull
     public static HttpManager getInstance() {
         return ourInstance;
     }
 
+
+    @NotNull
     public OkHttpClient getDefaultClient() {
         return defaultHttpClient;
     }

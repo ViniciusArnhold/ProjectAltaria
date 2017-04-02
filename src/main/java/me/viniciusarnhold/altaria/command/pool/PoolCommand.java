@@ -92,11 +92,11 @@ public class PoolCommand implements ICommand, IListener<MessageReceivedEvent> {
     }
 
     @NotNull
-    public static final PoolCommand getInstance() {
+    public static PoolCommand getInstance() {
         return instance;
     }
 
-    private final boolean isPoolMessage(@NotNull IMessage message) {
+    private boolean isPoolMessage(@NotNull IMessage message) {
         return !message.getChannel().isPrivate() && MessageUtils.isMyCommand(message, this);
     }
 
@@ -143,7 +143,7 @@ public class PoolCommand implements ICommand, IListener<MessageReceivedEvent> {
         try {
             if (!isPoolMessage(message)) return;
 
-            List<String> args = Commands.splitByWhitespace(message.getContent().trim());
+            @NotNull List<String> args = Commands.splitByWhitespace(message.getContent().trim());
             if (args.size() < 4 || args.size() > 12) {
                 messageDeletionService().schedule(MessageUtils.getSimpleMentionMessage(message)
                         .appendContent(args.size() > 37 ? "Too many options, max: 12 " : "")
@@ -169,7 +169,7 @@ public class PoolCommand implements ICommand, IListener<MessageReceivedEvent> {
                 return;
             }
 
-            final Map<String, String> options = new LinkedHashMap<>();
+            @NotNull final Map<String, String> options = new LinkedHashMap<>();
             int count = 0;
             for (int i = 2; i < args.size(); i++) {
                 options.put(LIST_EMOJIS.get(count++), args.get(i));
@@ -181,7 +181,7 @@ public class PoolCommand implements ICommand, IListener<MessageReceivedEvent> {
                             + System.lineSeparator()
                             + "React to this message with the given Emojis to vote");
 
-            for (Map.Entry<String, String> entry : options.entrySet()) {
+            for (@NotNull Map.Entry<String, String> entry : options.entrySet()) {
                 builder.appendField(entry.getValue(), String.format(POOL_LIST_FORMAT, entry.getKey(), entry.getValue()), false);
             }
 
@@ -207,8 +207,8 @@ public class PoolCommand implements ICommand, IListener<MessageReceivedEvent> {
                             new Pool(options,
                                     poolMessage,
                                     time,
-                                    args.get(0).equalsIgnoreCase("MultPool")
-                                            || args.get(0).equalsIgnoreCase("MPool") ?
+                                    "MultPool".equalsIgnoreCase(args.get(0))
+                                            || "MPool".equalsIgnoreCase(args.get(0)) ?
                                             Pool.Type.MULTI :
                                             Pool.Type.SINGLE));
 

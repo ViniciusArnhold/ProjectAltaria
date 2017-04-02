@@ -7,14 +7,18 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
 
+import javax.annotation.Nullable;
+
 /**
  * Created by Vinicius.
  *
  * @since ${PROJECT_VERSION}
  */
+@SuppressWarnings("ConstantConditions")
 class AbstractCommandTest {
 
-    AbstractCommand command;
+    @Nullable
+    private AbstractCommand command;
 
     @BeforeEach
     void setUp() {

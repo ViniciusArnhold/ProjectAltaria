@@ -26,7 +26,7 @@ public class EventUtils {
     }
 
     public static void sendConnectionErrorMessage(IDiscordClient client, IChannel channel, String command, @Nullable String message, @NotNull HttpStatusException httpe) throws RateLimitException, DiscordException, MissingPermissionsException {
-        String problem = message != null ? message + "\n" : "";
+        @NotNull String problem = message != null ? message + "\n" : "";
         if (httpe.getStatusCode() == HttpStatus.SC_SERVICE_UNAVAILABLE) {
             problem += "Service unavailable, please try again latter.";
         } else if (httpe.getStatusCode() == HttpStatus.SC_FORBIDDEN) {

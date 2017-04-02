@@ -11,6 +11,7 @@ public enum CommandType {
     UTIL,
     ADMIN,
     BOT,
-    MUSIC
+    MUSIC,
+    API
 
 }

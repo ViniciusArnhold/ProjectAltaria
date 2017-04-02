@@ -1,6 +1,12 @@
 package me.viniciusarnhold.altaria.apis.objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import me.viniciusarnhold.altaria.apis.HttpManager;
+import me.viniciusarnhold.altaria.core.App;
+import okhttp3.Request;
+import okhttp3.Response;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * Created by Vinicius.
@@ -105,7 +111,36 @@ public class XKCDComic {
     }
 
     public void setImageLink(String imageLink) {
-        this.imageLink = imageLink;
+        imageLink = StringUtils.defaultString(imageLink, "");
+        if (imageLink.endsWith(".png")) {
+            try {
+                String biggerImage = imageLink.replace(".png", "_2x.png");
+                Request request = new Request.Builder()
+                        .url(biggerImage)
+                        .head()
+                        .build();
+
+                Response response = HttpManager.getInstance().getDefaultClient()
+                                               .newBuilder()
+                                               .followRedirects(false)
+                                               .followSslRedirects(false)
+                                               .build()
+                                               .newCall(request)
+                                               .execute();
+
+                if (response.code() < 300) {
+                    this.imageLink = biggerImage;
+                } else {
+                    this.imageLink = imageLink;
+                }
+            } catch (Exception e) {
+                //Ok to throw exception
+                LogManager.getLogger(App.class).trace(e);
+                this.imageLink = imageLink;
+            }
+        } else {
+            this.imageLink = imageLink;
+        }
     }
 
     public String getTitle() {

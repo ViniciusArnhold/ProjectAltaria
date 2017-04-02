@@ -1,5 +1,8 @@
 package me.viniciusarnhold.altaria.command;
 
+
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Created by Vinicius.
  *
@@ -27,7 +30,9 @@ public enum UserPermissions {
 
         }
 
-        public static final Manager getInstance() {
+
+        @NotNull
+        public static Manager getInstance() {
             return instance;
         }
 

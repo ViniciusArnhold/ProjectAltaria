@@ -19,7 +19,6 @@ public class Pool {
     @NotNull
     private final Map<String, String> options;
 
-    @NotNull
     private final long time;
 
     @NotNull
@@ -31,7 +30,7 @@ public class Pool {
     @NotNull
     private final Type type;
 
-    Pool(@NotNull Map<String, String> options, @NotNull IMessage message, @NotNull long time, @NotNull Type type) {
+    Pool(@NotNull Map<String, String> options, @NotNull IMessage message, long time, @NotNull Type type) {
         this.options = options;
         this.message = message;
         this.time = time;
@@ -52,10 +51,14 @@ public class Pool {
         return message;
     }
 
+
+    @NotNull
     public Integer id() {
         return poolID;
     }
 
+
+    @NotNull
     public Type type() {
         return this.type;
     }

@@ -1,5 +1,6 @@
 package me.viniciusarnhold.altaria.command;
 
+import com.diffplug.common.base.Errors;
 import me.viniciusarnhold.altaria.command.interfaces.ICommand;
 import me.viniciusarnhold.altaria.core.BotManager;
 import me.viniciusarnhold.altaria.utils.Logs;
@@ -37,7 +38,7 @@ public class MessageUtils {
 
     public static boolean isMyCommand(String message, @NotNull ICommand thiz) {
         message = message.trim();
-        final String prefix = Prefixes.getInstance().current();
+        @NotNull final String prefix = Prefixes.getInstance().current();
         if (!message.startsWith(prefix)) {
             return false;
         }
@@ -96,8 +97,9 @@ public class MessageUtils {
                 .appendContent(" ");
     }
 
-    public static <T> T retry(Supplier<T> supplier) {
-        T value = null;
+    @NotNull
+    public static <T> T retry(@NotNull Supplier<T> supplier) {
+        @org.jetbrains.annotations.Nullable T value = null;
         do {
             try {
                 value = supplier.get();
@@ -118,6 +120,15 @@ public class MessageUtils {
 
     public static void handleDiscord4JException(@NotNull Logger logger, Exception e) {
         logger.error(e);
+    }
+
+    public static <T> T supress(@NotNull Supplier<T> supplier) {
+        try {
+            return supplier.get();
+        } catch (Exception e) {
+            BotManager.LOGGER.error(e);
+            throw Errors.asRuntime(e);
+        }
     }
 
     public static void handleDiscord4JException(@NotNull Logger logger, @NotNull Exception e, @NotNull ICommand commandHandler, @NotNull IMessage message) {

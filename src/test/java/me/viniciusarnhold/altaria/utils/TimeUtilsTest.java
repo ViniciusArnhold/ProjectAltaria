@@ -1,6 +1,7 @@
 package me.viniciusarnhold.altaria.utils;
 
 import org.hamcrest.core.Is;
+import org.jetbrains.annotations.NotNull;
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
@@ -62,7 +63,7 @@ class TimeUtilsTest {
     void invalidCases() {
         assertThrows(IllegalArgumentException.class, () -> TimeUtils.abbreviate(null));
 
-        Class<?> clazz = TimeUtils.class;
+        @NotNull Class<?> clazz = TimeUtils.class;
         try {
             Constructor constructor = clazz.getDeclaredConstructor();
             assertTrue(Modifier.isPrivate(constructor.getModifiers()));

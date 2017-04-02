@@ -1,9 +1,13 @@
 package me.viniciusarnhold.altaria.command;
 
 import me.viniciusarnhold.altaria.command.interfaces.ICommand;
+import me.viniciusarnhold.altaria.utils.Actions;
 import org.jetbrains.annotations.NotNull;
 import sx.blah.discord.api.events.IListener;
 import sx.blah.discord.handle.impl.events.MessageReceivedEvent;
+import sx.blah.discord.handle.obj.IMessage;
+import sx.blah.discord.util.MessageBuilder;
+import sx.blah.discord.util.RequestBuffer;
 
 import java.util.Collections;
 import java.util.EnumSet;
@@ -34,6 +38,10 @@ public abstract class AbstractCommand implements ICommand, IListener<MessageRece
         permissions = EnumSet.noneOf(UserPermissions.class);
     }
 
+    @NotNull
+    public static RequestBuffer.RequestFuture<IMessage> enqueue(@NotNull MessageBuilder builder) {
+        return RequestBuffer.request(Actions.wrap(builder::send));
+    }
 
     @NotNull
     @Override
@@ -63,5 +71,11 @@ public abstract class AbstractCommand implements ICommand, IListener<MessageRece
     @Override
     public EnumSet<UserPermissions> permissions() {
         return permissions;
+    }
+
+    protected boolean isMyCommand(@NotNull MessageReceivedEvent event) {
+        return !event.getMessage().getChannel().isPrivate() &&
+                !event.getMessage().getAuthor().isBot() &&
+                MessageUtils.isMyCommand(event.getMessage(), this);
     }
 }

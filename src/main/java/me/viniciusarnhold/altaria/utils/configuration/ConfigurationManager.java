@@ -36,7 +36,7 @@ public final class ConfigurationManager {
     private void loadConfigurationManager() {
         log.trace(() -> "Initializing configuration cache.");
 
-        Parameters params = new Parameters();
+        @NotNull Parameters params = new Parameters();
 
         FileBasedConfigurationBuilder<FileBasedConfiguration> builder =
                 new FileBasedConfigurationBuilder<FileBasedConfiguration>(PropertiesConfiguration.class)
@@ -80,7 +80,7 @@ public final class ConfigurationManager {
             ensureCached();
         }
 
-        private final void ensureCached() {
+        private void ensureCached() {
             final Configuration config = ConfigurationManager.getInstance().configuration();
 
             config.lock(LockMode.READ);
@@ -110,7 +110,7 @@ public final class ConfigurationManager {
             return this.actualValue = actualValue;
         }
 
-        private final void populate(@NotNull Configuration config) {
+        private void populate(@NotNull Configuration config) {
             setValue(config.get(type(), key(), defaultValue()));
         }
     }

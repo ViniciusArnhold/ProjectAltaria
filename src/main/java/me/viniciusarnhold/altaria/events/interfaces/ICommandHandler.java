@@ -18,6 +18,7 @@ public interface ICommandHandler {
 
     boolean handle(MessageReceivedEvent event, String command, String matchedText) throws RateLimitException, DiscordException, MissingPermissionsException;
 
+    @javax.annotation.Nullable
     @Nullable
     List<Commands> getHandableCommands();
 

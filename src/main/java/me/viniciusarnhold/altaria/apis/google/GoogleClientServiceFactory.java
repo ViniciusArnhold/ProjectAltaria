@@ -60,7 +60,7 @@ public class GoogleClientServiceFactory {
     private static Credential googleCredential;
 
     static {
-        HashSet<String> set = new HashSet<>();
+        @NotNull HashSet<String> set = new HashSet<>();
         set.addAll(ScriptScopes.all());
         set.addAll(SheetsScopes.all());
         set.addAll(SurveysScopes.all());
@@ -90,18 +90,18 @@ public class GoogleClientServiceFactory {
     }
 
     @NotNull
-    public static final GoogleClientServiceFactory getInstance() {
+    public static GoogleClientServiceFactory getInstance() {
         return ourInstance;
     }
 
     @NotNull
-    private static final HttpTransport secureHttpTransport() {
+    private static HttpTransport secureHttpTransport() {
         return secureHttpTransport;
     }
 
     @NotNull
     public final Script getScriptService() {
-        Script service = (Script) cacheClients.computeIfAbsent(Script.class,
+        @NotNull Script service = (Script) cacheClients.computeIfAbsent(Script.class,
                 (clazz) ->
                         new Script.Builder(
                                 secureHttpTransport(),
@@ -121,7 +121,7 @@ public class GoogleClientServiceFactory {
 
     @NotNull
     public final Sheets getSheetsService() {
-        Sheets service = (Sheets) cacheClients.computeIfAbsent(Sheets.class,
+        @NotNull Sheets service = (Sheets) cacheClients.computeIfAbsent(Sheets.class,
                 (clazz) ->
                         new Sheets.Builder(
                                 secureHttpTransport(),
@@ -139,7 +139,7 @@ public class GoogleClientServiceFactory {
 
     @NotNull
     public final Urlshortener getUrlShortenerService() {
-        Urlshortener service = (Urlshortener) cacheClients.computeIfAbsent(Urlshortener.class,
+        @NotNull Urlshortener service = (Urlshortener) cacheClients.computeIfAbsent(Urlshortener.class,
                 (clazz) ->
                         new Urlshortener.Builder(
                                 secureHttpTransport(),
@@ -157,7 +157,7 @@ public class GoogleClientServiceFactory {
 
     @NotNull
     public final Surveys getSurveyService() {
-        Surveys service = (Surveys) cacheClients.computeIfAbsent(Surveys.class,
+        @NotNull Surveys service = (Surveys) cacheClients.computeIfAbsent(Surveys.class,
                 (clazz) ->
                         new Surveys.Builder(
                                 secureHttpTransport(),

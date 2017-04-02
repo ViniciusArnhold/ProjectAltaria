@@ -55,11 +55,11 @@ public class LeagueCommandHandler implements ICommandHandler {
     }
 
     @NotNull
-    public static final LeagueCommandHandler getInstance() {
+    public static LeagueCommandHandler getInstance() {
         return ourInstance;
     }
 
-    private final void showRandedStats(@NotNull MessageReceivedEvent event, final String ladder, final String name) throws RateLimitException, DiscordException, MissingPermissionsException {
+    private void showRandedStats(@NotNull MessageReceivedEvent event, final String ladder, final String name) throws RateLimitException, DiscordException, MissingPermissionsException {
         /*if (Objects.isNull(name) || StringUtils.isEmpty(name)) {
             answerWithError(event, "Nome de summoner invalido.");
             return;
@@ -91,13 +91,13 @@ public class LeagueCommandHandler implements ICommandHandler {
             answerWithError(event, MessageFormat.format("Summoner {0} nao tem dados para ladder {1}.", name, ladder));
             return;
         }
-        V2_AsciiTable table = new V2_AsciiTable();
+        @NotNull V2_AsciiTable table = new V2_AsciiTable();
         table.addRule();
         table.addRow(MessageFormat.format("Summoner stats for {0} from the {1} ladder.", summoner, ladder));
         table.addRule();
         int wins = stats.getWins();
         int losses = stats.getLosses();
-        Double winratio = (losses != 0 && wins != 0) ? ((wins * 100) / losses) : Double.POSITIVE_INFINITY;
+        @NotNull Double winratio = (losses != 0 && wins != 0) ? ((wins * 100) / losses) : Double.POSITIVE_INFINITY;
         table.addRow("Wins", wins, "Losses", losses, "Win Ratio", winratio.toString());
         table.addRule();
         table.addRow("Averages");
@@ -110,7 +110,7 @@ public class LeagueCommandHandler implements ICommandHandler {
         table.addRow("Maior jogo", agr.getMaxTimePlayed(), "Penta Kills", agr.getTotalPentaKills(), "Quadra Kills", agr.getTotalQuadraKills());
         table.addRule();
 
-        V2_AsciiTableRenderer renderer = new V2_AsciiTableRenderer();
+        @NotNull V2_AsciiTableRenderer renderer = new V2_AsciiTableRenderer();
         renderer.setTheme(V2_E_TableThemes.UTF_LIGHT.get());
         renderer.setWidth(new WidthAbsoluteEven(200));
         RenderedTable result = renderer.render(table);

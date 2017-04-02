@@ -62,7 +62,7 @@ public class Commands implements Comparable<Commands> {
         return new Commands(mainCommand, options, handler, commandInfo);
     }
 
-    public static final SortedSet<Commands> getAllCommands() {
+    public static SortedSet<Commands> getAllCommands() {
         return Collections.unmodifiableSortedSet(commandList);
     }
 
@@ -75,10 +75,10 @@ public class Commands implements Comparable<Commands> {
     @NotNull
     @Contract("null -> fail")
     public static List<String> splitByWhitespace(@NotNull String args) {
-        Matcher matcher = Regexes.WHITESPACE_SPLIT.pattern().matcher(Objects.requireNonNull(args));
+        @NotNull Matcher matcher = Regexes.WHITESPACE_SPLIT.pattern().matcher(Objects.requireNonNull(args));
 
         //As seen on http://stackoverflow.com/a/7804472
-        List<String> list = new ArrayList<>();
+        @NotNull List<String> list = new ArrayList<>();
         while (matcher.find()) {
             list.add(matcher.group(1).replace("\"", ""));
         }
@@ -107,14 +107,14 @@ public class Commands implements Comparable<Commands> {
 
     @Contract("null -> fail")
     public CommandLine parse(@NotNull String text) throws ParseException {
-        List<String> splitedText = splitByWhitespace(text);
+        @NotNull List<String> splitedText = splitByWhitespace(text);
         return new DefaultParser().parse(this.options, splitedText.toArray(new String[splitedText.size()]));
     }
 
     public boolean showHelpIfPresent(IDiscordClient client, IChannel channnel, @NotNull CommandLine cmd) throws RateLimitException, DiscordException, MissingPermissionsException {
         if (cmd.hasOption("h") || cmd.hasOption("help") || cmd.hasOption("showHelp")) {
-            StringWriter writter = new StringWriter(200);
-            PrintWriter pw = new PrintWriter(writter);
+            @NotNull StringWriter writter = new StringWriter(200);
+            @NotNull PrintWriter pw = new PrintWriter(writter);
             new HelpFormatter()
                     .printHelp(pw, 200,
                             EventManager.MAIN_COMMAND_NAME + "  " + this.mainCommand,
@@ -137,7 +137,7 @@ public class Commands implements Comparable<Commands> {
     public boolean equals(@Nullable Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Commands command = (Commands) o;
+        @NotNull Commands command = (Commands) o;
         return Objects.equals(mainCommand, command.mainCommand) &&
                 Objects.equals(options, command.options);
     }

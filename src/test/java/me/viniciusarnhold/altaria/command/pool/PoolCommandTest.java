@@ -15,6 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
  *
  * @since ${PROJECT_VERSION}
  */
+@SuppressWarnings("ConstantConditions")
 final class PoolCommandTest {
     public static IMessage createMessage(String content) {
         return createMessage(content, false);

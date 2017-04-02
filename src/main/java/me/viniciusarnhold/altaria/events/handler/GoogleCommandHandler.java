@@ -17,7 +17,6 @@ import org.apache.http.message.BasicHeader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -34,9 +33,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 import java.util.List;
-
-import static java.util.Arrays.asList;
 
 /**
  * Created by Vinicius.
@@ -65,34 +63,34 @@ public class GoogleCommandHandler implements ICommandHandler {
     private static GoogleCommandHandler ourInstance = new GoogleCommandHandler();
 
     static {
-        Options options = new Options();
+        @NotNull Options options = new Options();
         options.addOption(Option.builder("l")
-                .longOpt("limit")
-                .hasArg()
-                .required(false)
-                .type(Integer.class)
-                .desc("Limits the number of search results, max is five, if not specified 3.")
-                .argName("results")
-                .build())
-                .addOption(Option.builder("t")
-                        .argName("search")
-                        .longOpt("text")
-                        .required()
-                        .hasArgs()
-                        .type(String.class)
-                        .desc("The text to use as search argument.")
-                        .build());
+                                .longOpt("limit")
+                                .hasArg()
+                                .required(false)
+                                .type(Integer.class)
+                                .desc("Limits the number of search results, max is five, if not specified 3.")
+                                .argName("results")
+                                .build())
+               .addOption(Option.builder("t")
+                                .argName("search")
+                                .longOpt("text")
+                                .required()
+                                .hasArgs()
+                                .type(String.class)
+                                .desc("The text to use as search argument.")
+                                .build());
         GOOGLE_SEARCH = Commands.of("Search::Google", options, getInstance(), "Searchs some text on google and posts back with the results.");
 
         options = new Options();
         options.addOption(Option.builder("t")
-                .type(String.class)
-                .longOpt("text")
-                .desc("The text to be shortened")
-                .required()
-                .hasArg()
-                .argName("url")
-                .build());
+                                .type(String.class)
+                                .longOpt("text")
+                                .desc("The text to be shortened")
+                                .required()
+                                .hasArg()
+                                .argName("url")
+                                .build());
         SHORTEN_URL_COMMAND = Commands.of("ShortUrl", options, getInstance(), "Shortens a URL using Google URL Shortener.");
     }
 
@@ -113,9 +111,9 @@ public class GoogleCommandHandler implements ICommandHandler {
         Elements links;
         try {
             links = Jsoup.connect(GOOGLE_SEARCH_LINK + URLEncoder.encode(search, StandardCharsets.UTF_8.name()))
-                    .userAgent(BOT_USER_AGENT)
-                    .get()
-                    .select(".g>.r>a");
+                         .userAgent(BOT_USER_AGENT)
+                         .get()
+                         .select(".g>.r>a");
         } catch (IOException e) {
             EventUtils.sendConnectionErrorMessage(event.getClient(), event.getMessage().getChannel(), "Search::Google", "Google Request Limit exceeded.", (HttpStatusException) e);
             logger.error("Failed to connect to google during google search", e);
@@ -125,7 +123,7 @@ public class GoogleCommandHandler implements ICommandHandler {
         MessageBuilder builder = new MessageBuilder(EventManager.getDiscordClient())
                 .withChannel(event.getMessage().getChannel());
         int count = 0;
-        for (Element link : links) {
+        for (@NotNull Element link : links) {
             if (count == limit) {
                 break;
             }
@@ -200,17 +198,17 @@ public class GoogleCommandHandler implements ICommandHandler {
         }
         try {
             Url shortUrl = GoogleClientServiceFactory.getInstance().getUrlShortenerService()
-                    .url()
-                    .insert(new Url().setLongUrl(url))
-                    .execute();
+                                                     .url()
+                                                     .insert(new Url().setLongUrl(url))
+                                                     .execute();
 
-            StringBuilder builder = new StringBuilder(StringUtils.defaultIfEmpty(shortUrl.getId(), "URL was removed by google."));
+            @NotNull StringBuilder builder = new StringBuilder(StringUtils.defaultIfEmpty(shortUrl.getId(), "URL was removed by google."));
 
             if (shortUrl.getStatus() != null && !"OK".equalsIgnoreCase(shortUrl.getStatus())) {
                 builder.append("\n")
-                        .append("Attention:")
-                        .append("   ")
-                        .append(shortUrl.getStatus());
+                       .append("Attention:")
+                       .append("   ")
+                       .append(shortUrl.getStatus());
             }
 
             new MessageBuilder(event.getClient())
@@ -234,86 +232,7 @@ public class GoogleCommandHandler implements ICommandHandler {
     @NotNull
     @Override
     public List<Commands> getHandableCommands() {
-        return asList(GOOGLE_SEARCH);
+        return Collections.singletonList(GOOGLE_SEARCH);
     }
 
-    public interface Question {
-
-        @NotNull
-        String type();
-
-        @Nullable
-        String title();
-
-        @Nullable
-        String helpText();
-
-        class QuestionType {
-
-            public static final String TEXT = "TEXT";
-            public static final String CHECK_BOX = "CHECK_BOX";
-
-            private QuestionType() {
-            }
-
-        }
-
-    }
-
-    public static abstract class AbstractQuestion implements Question {
-
-        protected final String title;
-        protected final String helpText;
-
-        protected AbstractQuestion(String title, String helpText) {
-            this.title = title;
-            this.helpText = helpText;
-        }
-
-        @Nullable
-        @Override
-        public String title() {
-            return null;
-        }
-
-        @Nullable
-        @Override
-        public String helpText() {
-            return null;
-        }
-    }
-
-    public static class TextQuestion extends AbstractQuestion implements Question {
-
-        public TextQuestion(String title, String helpText) {
-            super(title, helpText);
-        }
-
-        @NotNull
-        @Override
-        public String type() {
-            return QuestionType.TEXT;
-        }
-    }
-
-    public static class ChoiceQuestion extends AbstractQuestion implements Question {
-
-
-        private String[] choices;
-
-        public ChoiceQuestion(String title, String helpText, String... choices) {
-            super(title, helpText);
-            this.choices = choices;
-        }
-
-        @NotNull
-        @Override
-        public String type() {
-            return QuestionType.CHECK_BOX;
-        }
-
-        public String[] choices() {
-            return this.choices;
-        }
-    }
 }

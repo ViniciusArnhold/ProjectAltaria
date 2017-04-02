@@ -1,8 +1,7 @@
 package me.viniciusarnhold.altaria.events;
 
-import me.viniciusarnhold.altaria.command.common.InviteCommand;
-import me.viniciusarnhold.altaria.command.common.PingCommand;
-import me.viniciusarnhold.altaria.command.common.UptimeCommand;
+import me.viniciusarnhold.altaria.command.common.*;
+import me.viniciusarnhold.altaria.command.external.imdb.ImdbSearchCommand;
 import me.viniciusarnhold.altaria.command.pool.PoolCommand;
 import me.viniciusarnhold.altaria.command.random.XKCDCommand;
 import me.viniciusarnhold.altaria.events.interfaces.IReceiver;
@@ -10,6 +9,7 @@ import me.viniciusarnhold.altaria.events.receivers.MessageReceivedEventReceiver;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import sx.blah.discord.api.IDiscordClient;
 import sx.blah.discord.api.events.Event;
 import sx.blah.discord.api.events.IListener;
@@ -57,6 +57,10 @@ public class EventManager implements IModule {
         discordClient.getDispatcher().registerListener(new XKCDCommand());
         discordClient.getDispatcher().registerListener(new PingCommand());
         discordClient.getDispatcher().registerListener(new UptimeCommand());
+        discordClient.getDispatcher().registerListener(new EigthBallCommand());
+        discordClient.getDispatcher().registerListener(new RandomNumberCommand());
+        discordClient.getDispatcher().registerListener(new ImdbSearchCommand());
+
         registerListener(MessageReceivedEventReceiver.getInstace());
 
         return true;
@@ -69,8 +73,8 @@ public class EventManager implements IModule {
 
     @Override
     public void disable() {
-        Exception e = null;
-        for (IReceiver receiver :
+        @Nullable Exception e = null;
+        for (@NotNull IReceiver receiver :
                 eventListeners) {
             try {
                 receiver.disable();

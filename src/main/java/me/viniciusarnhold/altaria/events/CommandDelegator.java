@@ -47,7 +47,7 @@ public final class CommandDelegator {
         return ourInstance;
     }
 
-    public static final Set<Commands> getAllCommands() {
+    public static Set<Commands> getAllCommands() {
         return Collections.unmodifiableSet(COMMANDS);
     }
 
@@ -55,7 +55,7 @@ public final class CommandDelegator {
         EntryMessage entryMessage = logger.traceEntry("CommandDelegator will delegate command {}.", matchedText);
 
         int handleCount = 0;
-        for (ICommandHandler handler : HANDLERS) {
+        for (@NotNull ICommandHandler handler : HANDLERS) {
             try {
                 if (handler.handle(event, command, matchedText)) {
                     handleCount++;

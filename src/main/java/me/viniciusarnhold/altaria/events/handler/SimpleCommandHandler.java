@@ -17,7 +17,7 @@ import sx.blah.discord.util.MessageBuilder;
 import sx.blah.discord.util.MissingPermissionsException;
 import sx.blah.discord.util.RateLimitException;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,7 +34,7 @@ public class SimpleCommandHandler implements ICommandHandler {
     private static SimpleCommandHandler ourInstance = new SimpleCommandHandler();
 
     static {
-        Options options = new Options();
+        @NotNull Options options = new Options();
         options.addOption(Option.builder("m")
                 .longOpt("mention")
                 .type(String.class)
@@ -53,7 +53,7 @@ public class SimpleCommandHandler implements ICommandHandler {
     }
 
     private void sendHelloWorld(@NotNull MessageReceivedEvent event, boolean isMention, @Nullable String[] to) throws DiscordException, MissingPermissionsException, RateLimitException {
-        StringBuilder builder = new StringBuilder(40);
+        @NotNull StringBuilder builder = new StringBuilder(40);
         if (isMention) {
             if (to == null) {
                 builder.append(event.getMessage().getAuthor().mention())
@@ -105,6 +105,6 @@ public class SimpleCommandHandler implements ICommandHandler {
     @NotNull
     @Override
     public List<Commands> getHandableCommands() {
-        return Arrays.asList(HELLO_COMMAND);
+        return Collections.singletonList(HELLO_COMMAND);
     }
 }

@@ -42,7 +42,7 @@ public class PoolManager {
 
     public final void registerPool(@NotNull IMessage message, @NotNull Pool pool) {
         logger.trace("Registering new pool {}, called by {} for {} seconds.",
-                () -> pool.id(),
+                pool::id,
                 () -> message.getAuthor().getName(),
                 () -> TimeUnit.MILLISECONDS.convert(pool.time(), TimeUnit.SECONDS));
 
@@ -73,12 +73,12 @@ public class PoolManager {
                 return;
             }
 
-            final Map<String, String> options = pool.options();
-            final Map<String, List<IUser>> results = new HashMap<>();
+            @NotNull final Map<String, String> options = pool.options();
+            @NotNull final Map<String, List<IUser>> results = new HashMap<>();
 
 
             if (pool.type() == Pool.Type.MULTI) {
-                for (Map.Entry<String, String> entry : options.entrySet()) {
+                for (@NotNull Map.Entry<String, String> entry : options.entrySet()) {
                     IReaction reaction = currentMessage.getReactionByName(EmojiManager.getForAlias(entry.getKey()).getUnicode());
                     if (reaction != null) {
                         try {
@@ -90,8 +90,8 @@ public class PoolManager {
                     }
                 }
             } else {
-                Set<IUser> users = new HashSet<>();
-                for (Map.Entry<String, String> entry : options.entrySet()) {
+                @NotNull Set<IUser> users = new HashSet<>();
+                for (@NotNull Map.Entry<String, String> entry : options.entrySet()) {
                     IReaction reaction = currentMessage.getReactionByName(EmojiManager.getForAlias(entry.getKey()).getUnicode());
                     if (reaction != null) {
                         List<IUser> rUsers = Collections.emptyList();
