@@ -14,7 +14,6 @@ import javax.annotation.Nullable;
  *
  * @since ${PROJECT_VERSION}
  */
-@SuppressWarnings("ConstantConditions")
 class AbstractCommandTest {
 
     @Nullable

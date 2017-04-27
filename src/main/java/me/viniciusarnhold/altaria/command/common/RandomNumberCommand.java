@@ -132,11 +132,11 @@ public class RandomNumberCommand extends AbstractCommand {
                 builder.withDescription("Average result: " + sum / sIterations);
 
                 sendThenDelete(MessageUtils.getMessageBuilder(event.getMessage())
-                                           .withEmbed(builder.build()));
+                        .withEmbed(builder.build()));
                 delete(event.getMessage());
             } else {
                 sendThenDelete(MessageUtils.getMessageBuilder(event.getMessage())
-                                           .withContent("Usage: random origin bound <iterations>"));
+                        .withContent("Usage: random origin bound <iterations>"));
             }
 
         } catch (Exception e) {
@@ -166,7 +166,7 @@ public class RandomNumberCommand extends AbstractCommand {
         builder.withDescription("Heads: " + heads + ". Tails: " + tails);
 
         sendThenDelete(MessageUtils.getMessageBuilder(event.getMessage())
-                                   .withEmbed(builder.build()));
+                .withEmbed(builder.build()));
         delete(event.getMessage());
     }
 
@@ -189,7 +189,7 @@ public class RandomNumberCommand extends AbstractCommand {
         builder.withDescription("Average result: " + (sum / sIterations));
 
         sendThenDelete(MessageUtils.getMessageBuilder(event.getMessage())
-                                   .withEmbed(builder.build()));
+                .withEmbed(builder.build()));
         delete(event.getMessage());
     }
 

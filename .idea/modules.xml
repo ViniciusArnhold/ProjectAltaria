@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Project Altaria.iml" filepath="$PROJECT_DIR$/Project Altaria.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-altaria.iml" filepath="$PROJECT_DIR$/.idea/modules/project-altaria.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-altaria_main.iml" filepath="$PROJECT_DIR$/.idea/modules/project-altaria_main.iml" group="project-altaria" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/project-altaria_test.iml" filepath="$PROJECT_DIR$/.idea/modules/project-altaria_test.iml" group="project-altaria" />
     </modules>
   </component>
 </project>

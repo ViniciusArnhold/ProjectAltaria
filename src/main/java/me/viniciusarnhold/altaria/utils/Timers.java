@@ -3,7 +3,6 @@ package me.viniciusarnhold.altaria.utils;
 import me.viniciusarnhold.altaria.command.MessageUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import sx.blah.discord.handle.obj.IMessage;
 import sx.blah.discord.util.DiscordException;
@@ -22,7 +21,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class Timers {
 
-    @Contract(" -> fail")
     private Timers() {
         throw new Error("No init");
     }

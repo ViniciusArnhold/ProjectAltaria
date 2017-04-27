@@ -198,7 +198,7 @@ public class PoolCommand implements ICommand, IListener<MessageReceivedEvent> {
                         () -> poolMessage.addReaction(
                                 EmojiManager.getForAlias(emoji)
                                         .getUnicode()))
-                                      );
+                );
             }
             requestBuilder.andThen(Actions.ofSuccess(message::delete));
 

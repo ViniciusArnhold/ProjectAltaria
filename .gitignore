@@ -79,3 +79,5 @@ target/
 ### NetBeans template
 /src/main/resources/properties/
 /altaria-main.log
+/out/
+/build/

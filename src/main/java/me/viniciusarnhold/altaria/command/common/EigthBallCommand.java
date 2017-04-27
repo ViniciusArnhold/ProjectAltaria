@@ -83,17 +83,17 @@ public class EigthBallCommand extends AbstractCommand {
             if (args.size() < 2) {
                 RequestBuffer.request(Actions.wrap(() -> {
                     IMessage message = MessageUtils.getMessageBuilder(event.getMessage())
-                                                   .appendContent(":8ball: says: ")
-                                                   .appendContent("I gonna need some questions pal.")
-                                                   .send();
+                            .appendContent(":8ball: says: ")
+                            .appendContent("I gonna need some questions pal.")
+                            .send();
                     Timers.messageDeletionService().schedule(message, 1, TimeUnit.HOURS);
                 }));
             } else {
                 RequestBuffer.request(Actions.wrap(() -> {
                     IMessage message = MessageUtils.getMessageBuilder(event.getMessage())
-                                                   .appendContent(":8ball: says: ")
-                                                   .appendContent(ANSWERS.get(ThreadLocalRandom.current().nextInt(0, ANSWERS.size())))
-                                                   .send();
+                            .appendContent(":8ball: says: ")
+                            .appendContent(ANSWERS.get(ThreadLocalRandom.current().nextInt(0, ANSWERS.size())))
+                            .send();
                     Timers.messageDeletionService().schedule(message, 1, TimeUnit.HOURS);
                 }));
             }

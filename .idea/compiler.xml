@@ -1,21 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <annotationProcessing>
-      <profile default="true" name="Default" enabled="true">
-        <processorPath useClasspath="false">
-          <entry name="$APPLICATION_HOME_DIR$/redist/annotations-java8.jar" />
-        </processorPath>
-      </profile>
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="Project Altaria" />
-      </profile>
-    </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="Project Altaria" target="1.8" />
+    <bytecodeTargetLevel>
+      <module name="project-altaria_main" target="1.8" />
+      <module name="project-altaria_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

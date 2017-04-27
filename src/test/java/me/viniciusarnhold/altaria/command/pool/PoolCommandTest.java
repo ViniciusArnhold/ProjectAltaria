@@ -22,11 +22,10 @@ final class PoolCommandTest {
     }
 
     public static IMessage createMessage(String content, boolean isPrivate) {
-        return new Message(null, "01", content, null,
-
+        return new Message(null, 1, content, null,
                 isPrivate
-                        ? new PrivateChannel(null, null, null)
-                        : new Channel(null, null, null, null, null, 0, null, null),
+                        ? new PrivateChannel(null, null, 1)
+                        : new Channel(null, null, 1, null, null, 0, null, null),
 
                 null, null, false, null, null, null, false, null, null, null);
     }

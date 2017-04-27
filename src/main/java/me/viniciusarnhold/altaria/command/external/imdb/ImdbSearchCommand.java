@@ -55,11 +55,11 @@ public class ImdbSearchCommand extends AbstractCommand {
         try {
             if (args.size() < 2) {
                 MessageUtils.getDefaultRequestBuilder(event.getMessage())
-                            .doAction(Actions.ofSuccess(() ->
-                                    MessageUtils.getMessageBuilder(event.getMessage())
-                                                .appendContent("Command must have parameters to query for")
-                                                .send()))
-                            .execute();
+                        .doAction(Actions.ofSuccess(() ->
+                                MessageUtils.getMessageBuilder(event.getMessage())
+                                        .appendContent("Command must have parameters to query for")
+                                        .send()))
+                        .execute();
                 return;
             }
             args.remove(0);
@@ -72,16 +72,16 @@ public class ImdbSearchCommand extends AbstractCommand {
 
             if (results.isEmpty()) {
                 MessageUtils.getDefaultRequestBuilder(event.getMessage())
-                            .doAction(Actions.ofSuccess(() ->
-                                    MessageUtils.getMessageBuilder(event.getMessage())
-                                                .appendContent("No results found")
-                                                .send()))
-                            .execute();
+                        .doAction(Actions.ofSuccess(() ->
+                                MessageUtils.getMessageBuilder(event.getMessage())
+                                        .appendContent("No results found")
+                                        .send()))
+                        .execute();
                 return;
             }
 
             builder.withTitle("Query results")
-                   .withDescription(query);
+                    .withDescription(query);
 
             boolean isFirst = true;
             int count = 0;
