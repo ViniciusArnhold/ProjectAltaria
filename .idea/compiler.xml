@@ -2,8 +2,24 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
+      <module name="altaria-commands_main" target="1.8" />
+      <module name="altaria-commands_test" target="1.8" />
+      <module name="altaria-core_main" target="1.8" />
+      <module name="altaria-core_test" target="1.8" />
+      <module name="altaria_main" target="1.8" />
+      <module name="altaria_test" target="1.8" />
+      <module name="commands_main" target="1.8" />
+      <module name="commands_test" target="1.8" />
+      <module name="conductor-commands_main" target="1.8" />
+      <module name="conductor-commands_test" target="1.8" />
+      <module name="conductor-core_main" target="1.8" />
+      <module name="conductor-core_test" target="1.8" />
+      <module name="core_main" target="1.8" />
+      <module name="core_test" target="1.8" />
       <module name="project-altaria_main" target="1.8" />
       <module name="project-altaria_test" target="1.8" />
+      <module name="start_main" target="1.8" />
+      <module name="start_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
