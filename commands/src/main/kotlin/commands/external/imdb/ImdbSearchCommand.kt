@@ -2,7 +2,7 @@ package me.viniciusarnhold.altaria.command.external.imdb
 
 import com.google.common.collect.ImmutableSet
 import me.viniciusarnhold.altaria.apis.imdb.Imdb
-import me.viniciusarnhold.altaria.command.AbstractCommand
+import me.viniciusarnhold.altaria.command.AbstractMessageCommand
 import me.viniciusarnhold.altaria.command.CommandType
 import me.viniciusarnhold.altaria.command.MessageUtils
 import me.viniciusarnhold.altaria.command.UserPermissions
@@ -17,11 +17,11 @@ import java.util.*
 
  * @since ${PROJECT_VERSION}
  */
-class ImdbSearchCommand : AbstractCommand() {
+class ImdbSearchCommand : AbstractMessageCommand() {
     init {
         this.command = "IMDBSearch"
         this.aliases = ImmutableSet.of("SearchIMDB", "SearchTV", "SearchMovies", "SearchMovie")
-        this.commandType = CommandType.API
+        this.commandType = me.viniciusarnhold.altaria.command.CommandType.API
         this.description = "Search's on imdb by args"
         this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }

@@ -1,6 +1,5 @@
 package me.viniciusarnhold.altaria.command
 
-import me.viniciusarnhold.altaria.command.interfaces.ICommand
 import me.viniciusarnhold.altaria.core.BotManager
 import me.viniciusarnhold.altaria.utils.Logs
 import me.viniciusarnhold.altaria.utils.Timers
@@ -11,6 +10,7 @@ import sx.blah.discord.handle.obj.IDiscordObject
 import sx.blah.discord.handle.obj.IMessage
 import sx.blah.discord.handle.obj.IUser
 import sx.blah.discord.util.*
+import java.awt.Color
 import java.time.LocalDateTime
 import java.util.function.Supplier
 
@@ -24,11 +24,11 @@ object MessageUtils {
     private val ICON_URL = "https://vignette2.wikia.nocookie.net/pokemon--shuffle/images/e/e2/334.png/revision/latest?cb=20150912015748"
 
 
-    fun isMyCommand(message: IMessage, thiz: ICommand): Boolean {
+    fun isMyCommand(message: IMessage, thiz: IMessageCommand): Boolean {
         return isMyCommand(message.content, thiz)
     }
 
-    fun isMyCommand(message: String, thiz: ICommand): Boolean {
+    fun isMyCommand(message: String, thiz: IMessageCommand): Boolean {
         var message = message
         message = message.trim { it <= ' ' }
         val prefix = Prefixes.current()
@@ -51,7 +51,7 @@ object MessageUtils {
         get() = EmbedBuilder()
                 .withAuthorName(BotManager.BOT_NAME)
                 .withAuthorUrl(BotManager.REPO_URL)
-                .withColor(36, 177, 222)
+                .withColor(Color(36, 177, 222))
                 .withAuthorIcon(ICON_URL)
                 .withTimestamp(LocalDateTime.now())
 
@@ -59,7 +59,7 @@ object MessageUtils {
         return EmbedBuilder()
                 .withAuthorName(BotManager.BOT_NAME)
                 .withAuthorUrl(BotManager.REPO_URL)
-                .withColor(36, 177, 222)
+                .withColor(Color(36, 177, 222))
                 .withAuthorIcon(ICON_URL)
                 .withFooterIcon(user.avatarURL)
                 .withFooterText("Requested by @" + user.name)
@@ -104,9 +104,7 @@ object MessageUtils {
                 } catch (e: InterruptedException) {
                     BotManager.LOGGER.error(e)
                 }
-
             }
-
         } while (value == null)
         return value
     }
@@ -125,7 +123,7 @@ object MessageUtils {
 
     }
 
-    fun handleDiscord4JException(logger: Logger, e: Exception, commandHandler: ICommand, message: IMessage) {
+    fun handleDiscord4JException(logger: Logger, e: Exception, commandHandler: IMessageCommand, message: IMessage) {
         try {
             logger.error("{} failed to handle command, a {} was captured",
                     { commandHandler.javaClass.simpleName },

@@ -6,7 +6,7 @@ import me.viniciusarnhold.altaria.command.CommandType
 import me.viniciusarnhold.altaria.command.MessageUtils
 import me.viniciusarnhold.altaria.command.Prefixes
 import me.viniciusarnhold.altaria.command.UserPermissions
-import me.viniciusarnhold.altaria.command.interfaces.ICommand
+import me.viniciusarnhold.altaria.command.IMessageCommand
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions
 import me.viniciusarnhold.altaria.utils.TimeUtils
@@ -28,7 +28,7 @@ import java.util.concurrent.TimeUnit
 
  * @since ${PROJECT_VERSION}
  */
-class PoolCommand : ICommand, IListener<MessageReceivedEvent> {
+class PoolCommand : IMessageCommand, IListener<MessageReceivedEvent> {
     init {
         logger.traceEntry()
         logger.traceExit()
@@ -50,7 +50,7 @@ class PoolCommand : ICommand, IListener<MessageReceivedEvent> {
         return desc
     }
 
-    override fun type(): CommandType {
+    override fun type(): me.viniciusarnhold.altaria.command.CommandType {
         return type
     }
 
@@ -166,7 +166,7 @@ class PoolCommand : ICommand, IListener<MessageReceivedEvent> {
 
         private val desc = "Creates a timed pool with the given choices, then posts back the results"
 
-        private val type = CommandType.UTIL
+        private val type = me.viniciusarnhold.altaria.command.CommandType.UTIL
 
         private val permissions = EnumSet.of(UserPermissions.MANAGE_POOL)
 

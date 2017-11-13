@@ -4,7 +4,7 @@ import com.google.common.collect.ImmutableSet
 import me.viniciusarnhold.altaria.command.CommandType
 import me.viniciusarnhold.altaria.command.MessageUtils
 import me.viniciusarnhold.altaria.command.UserPermissions
-import me.viniciusarnhold.altaria.command.interfaces.ICommand
+import me.viniciusarnhold.altaria.command.IMessageCommand
 import me.viniciusarnhold.altaria.core.BotManager
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions
@@ -21,7 +21,7 @@ import java.util.*
 
  * @since ${PROJECT_VERSION}
  */
-class InviteCommand : IListener<MessageReceivedEvent>, ICommand {
+class InviteCommand : IListener<MessageReceivedEvent>, IMessageCommand {
 
     /**
      * Called when the event is sent.
@@ -96,7 +96,7 @@ class InviteCommand : IListener<MessageReceivedEvent>, ICommand {
         return desc
     }
 
-    override fun type(): CommandType {
+    override fun type(): me.viniciusarnhold.altaria.command.CommandType {
         return type
     }
 
@@ -114,7 +114,7 @@ class InviteCommand : IListener<MessageReceivedEvent>, ICommand {
 
         private val desc = "Returns the invite link for this bot."
 
-        private val type = CommandType.BOT
+        private val type = me.viniciusarnhold.altaria.command.CommandType.BOT
 
         private val permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }

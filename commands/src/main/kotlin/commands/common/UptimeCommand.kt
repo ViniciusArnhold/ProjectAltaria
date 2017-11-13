@@ -1,6 +1,6 @@
 package me.viniciusarnhold.altaria.command.common
 
-import me.viniciusarnhold.altaria.command.AbstractCommand
+import me.viniciusarnhold.altaria.command.AbstractMessageCommand
 import me.viniciusarnhold.altaria.command.CommandType
 import me.viniciusarnhold.altaria.command.MessageUtils
 import me.viniciusarnhold.altaria.command.UserPermissions
@@ -15,11 +15,11 @@ import java.util.*
 
  * @since ${PROJECT_VERSION}
  */
-class UptimeCommand : AbstractCommand() {
+class UptimeCommand : AbstractMessageCommand() {
     init {
         this.command = "uptime"
         this.aliases = emptySet<String>()
-        this.commandType = CommandType.BOT
+        this.commandType = me.viniciusarnhold.altaria.command.CommandType.BOT
         this.description = "Measures the time this bot has been onnline"
         this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }

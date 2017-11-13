@@ -1,6 +1,6 @@
 package me.viniciusarnhold.altaria.command.common
 
-import me.viniciusarnhold.altaria.command.AbstractCommand
+import me.viniciusarnhold.altaria.command.AbstractMessageCommand
 import me.viniciusarnhold.altaria.command.CommandType
 import me.viniciusarnhold.altaria.command.MessageUtils
 import me.viniciusarnhold.altaria.command.UserPermissions
@@ -19,11 +19,11 @@ import java.util.concurrent.TimeUnit
 
  * @since ${PROJECT_VERSION}
  */
-class PingCommand : AbstractCommand() {
+class PingCommand : AbstractMessageCommand() {
     init {
         this.command = "ping"
         this.aliases = emptySet<String>()
-        this.commandType = CommandType.BOT
+        this.commandType = me.viniciusarnhold.altaria.command.CommandType.BOT
         this.description = "Measures the time a command take to reach the bot"
         this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }

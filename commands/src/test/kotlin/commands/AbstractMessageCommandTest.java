@@ -15,14 +15,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  *
  * @since ${PROJECT_VERSION}
  */
-class AbstractCommandTest {
+class AbstractMessageCommandTest {
 
     @Nullable
-    private AbstractCommand command;
+    private AbstractMessageCommand command;
 
     @BeforeEach
     void setUp() {
-        command = new AbstractCommand() {
+        command = new AbstractMessageCommand() {
             @Override
             public void handle(MessageReceivedEvent event) {
 

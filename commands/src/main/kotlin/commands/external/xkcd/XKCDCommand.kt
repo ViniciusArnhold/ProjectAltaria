@@ -1,13 +1,10 @@
-package me.viniciusarnhold.altaria.command.random
+package commands.external.xkcd
 
 import com.diffplug.common.base.Errors
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.viniciusarnhold.altaria.apis.HttpManager
 import me.viniciusarnhold.altaria.apis.objects.XKCDComic
-import me.viniciusarnhold.altaria.command.AbstractCommand
-import me.viniciusarnhold.altaria.command.CommandType
-import me.viniciusarnhold.altaria.command.MessageUtils
-import me.viniciusarnhold.altaria.command.UserPermissions
+import commands.*
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions
 import okhttp3.Request
@@ -27,13 +24,14 @@ import java.util.concurrent.ThreadLocalRandom
 
  * @since ${PROJECT_VERSION}
  */
-class XKCDCommand : AbstractCommand() {
-    init {
-        this.command = "xkcd"
-        this.aliases = emptySet<String>()
-        this.commandType = CommandType.GENERAL
-        this.description = "Posts links of XKCD.com, use with xkcd <num>, xkcd random, xkcd latest"
-        this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
+class XKCDCommand : AbstractMessageCommand(
+        command = "xkcd",
+        aliases = emptySet(),
+        type = EnumSet.of(commands.CommandType.GENERAL),
+        description = "Posts links of XKCD.com, use with xkcd <num>, xkcd random, xkcd latest",
+        permissions = EnumSet.noneOf(UserPermissions::class.java)) {
+
+    override fun describeUsage(builder: HelperBuilder) {
     }
 
     /**
@@ -85,7 +83,7 @@ class XKCDCommand : AbstractCommand() {
                     .execute()
 
         } catch (e: Exception) {
-            logger.error("Failed to handle command", e)
+            logger.error("Failed to handle commands", e)
         }
 
     }

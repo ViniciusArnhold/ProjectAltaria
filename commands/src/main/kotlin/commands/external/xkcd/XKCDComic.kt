@@ -12,7 +12,6 @@ import org.apache.logging.log4j.LogManager
 
  * @since ${PROJECT_VERSION}
  */
-//Methods are used by Jackson ObjectMapper
 class XKCDComic {
 
     @JsonProperty("month")
