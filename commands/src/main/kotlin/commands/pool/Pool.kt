@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.command.pool
+package commands.pool
 
 import sx.blah.discord.handle.obj.IMessage
 import java.util.concurrent.atomic.AtomicInteger

@@ -1,12 +1,11 @@
-package me.viniciusarnhold.altaria.command.pool
+package commands.pool
 
 import com.google.common.collect.ImmutableSet
 import com.vdurmont.emoji.EmojiManager
-import me.viniciusarnhold.altaria.command.CommandType
-import me.viniciusarnhold.altaria.command.MessageUtils
-import me.viniciusarnhold.altaria.command.Prefixes
-import me.viniciusarnhold.altaria.command.UserPermissions
-import me.viniciusarnhold.altaria.command.IMessageCommand
+import commands.MessageUtils
+import commands.Prefixes
+import commands.UserPermissions
+import commands.IMessageCommand
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions
 import me.viniciusarnhold.altaria.utils.TimeUtils
@@ -50,7 +49,7 @@ class PoolCommand : IMessageCommand, IListener<MessageReceivedEvent> {
         return desc
     }
 
-    override fun type(): me.viniciusarnhold.altaria.command.CommandType {
+    override fun type(): commands.CommandType {
         return type
     }
 
@@ -65,7 +64,7 @@ class PoolCommand : IMessageCommand, IListener<MessageReceivedEvent> {
      */
     override fun handle(event: MessageReceivedEvent) {
         val message = event.message
-        logger.traceEntry("Received command by {} with message {}", { message.author }, { message.content })
+        logger.traceEntry("Received commands by {} with message {}", { message.author }, { message.content })
 
         try {
             if (!isPoolMessage(message)) return
@@ -89,7 +88,7 @@ class PoolCommand : IMessageCommand, IListener<MessageReceivedEvent> {
             try {
                 time = Integer.parseInt(args[1])
             } catch (nfe: NumberFormatException) {
-                logger.trace("Received Pool command but couldnt parse time argument, arg {} ex {}", { args[1] }, { ExceptionUtils.getStackTrace(nfe) })
+                logger.trace("Received Pool commands but couldnt parse time argument, arg {} ex {}", { args[1] }, { ExceptionUtils.getStackTrace(nfe) })
                 Timers.MessageDeletionService.schedule(MessageUtils.getSimpleMentionMessage(message)
                         .withContent("Second argument must be a number.")
                         .send())
@@ -166,7 +165,7 @@ class PoolCommand : IMessageCommand, IListener<MessageReceivedEvent> {
 
         private val desc = "Creates a timed pool with the given choices, then posts back the results"
 
-        private val type = me.viniciusarnhold.altaria.command.CommandType.UTIL
+        private val type = commands.CommandType.UTIL
 
         private val permissions = EnumSet.of(UserPermissions.MANAGE_POOL)
 

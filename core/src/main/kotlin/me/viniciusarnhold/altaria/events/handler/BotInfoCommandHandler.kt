@@ -198,7 +198,7 @@ class BotInfoCommandHandler private constructor() : ICommandHandler {
 
         init {
             var options = Options()
-                    .addOption("v", "verbose", false, "shows the -help for each command, will send the message by PM because of size")
+                    .addOption("v", "verbose", false, "shows the -help for each commands, will send the message by PM because of size")
             HELP_COMMAND = Commands.of("Help", options, instance, "Shows this!")
 
             options = Options()

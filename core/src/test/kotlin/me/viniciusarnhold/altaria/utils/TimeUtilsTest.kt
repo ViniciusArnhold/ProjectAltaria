@@ -1,6 +1,7 @@
 package me.viniciusarnhold.altaria.utils
 
 import org.assertj.core.api.Assertions.assertThat
+import org.assertj.core.api.Assertions.assertThatCode
 import org.junit.jupiter.api.Test
 import java.util.concurrent.TimeUnit
 
@@ -32,6 +33,12 @@ internal class TimeUtilsTest {
         assertThat(TimeUtils.formatToString(1800000000000L)).isEqualTo("30 min")
         assertThat(TimeUtils.formatToString(18000000000000L)).isEqualTo("5 h")
         assertThat(TimeUtils.formatToString(2592000000000000L)).isEqualTo("30 d")
+    }
+
+    @Test
+    fun testNegative() {
+        assertThatCode { TimeUtils.formatToString(-1) }
+                .isInstanceOf(IllegalArgumentException::class.java)
     }
 
     @Test

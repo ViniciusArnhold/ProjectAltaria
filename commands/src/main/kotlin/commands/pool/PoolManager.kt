@@ -1,7 +1,7 @@
-package me.viniciusarnhold.altaria.command.pool
+package commands.pool
 
 import com.vdurmont.emoji.EmojiManager
-import me.viniciusarnhold.altaria.command.MessageUtils
+import commands.MessageUtils
 import me.viniciusarnhold.altaria.utils.Timers
 import org.apache.logging.log4j.LogManager
 import sx.blah.discord.handle.obj.IMessage

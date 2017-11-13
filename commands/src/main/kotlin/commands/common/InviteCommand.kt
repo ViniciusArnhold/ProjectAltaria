@@ -1,10 +1,9 @@
-package me.viniciusarnhold.altaria.command.common
+package commands.common
 
 import com.google.common.collect.ImmutableSet
-import me.viniciusarnhold.altaria.command.CommandType
-import me.viniciusarnhold.altaria.command.MessageUtils
-import me.viniciusarnhold.altaria.command.UserPermissions
-import me.viniciusarnhold.altaria.command.IMessageCommand
+import commands.MessageUtils
+import commands.UserPermissions
+import commands.IMessageCommand
 import me.viniciusarnhold.altaria.core.BotManager
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions
@@ -34,7 +33,7 @@ class InviteCommand : IListener<MessageReceivedEvent>, IMessageCommand {
         }
         try {
 
-            logger.traceEntry("Received Invite command with {}", { event.message.content })
+            logger.traceEntry("Received Invite commands with {}", { event.message.content })
 
             val args = Commands.splitByWhitespace(event.message.content.trim { it <= ' ' })
 
@@ -73,7 +72,7 @@ class InviteCommand : IListener<MessageReceivedEvent>, IMessageCommand {
                     .execute()
 
         } catch (e: Exception) {
-            logger.error("Failed to handle Invite command", e)
+            logger.error("Failed to handle Invite commands", e)
         }
 
     }
@@ -96,7 +95,7 @@ class InviteCommand : IListener<MessageReceivedEvent>, IMessageCommand {
         return desc
     }
 
-    override fun type(): me.viniciusarnhold.altaria.command.CommandType {
+    override fun type(): commands.CommandType {
         return type
     }
 
@@ -114,7 +113,7 @@ class InviteCommand : IListener<MessageReceivedEvent>, IMessageCommand {
 
         private val desc = "Returns the invite link for this bot."
 
-        private val type = me.viniciusarnhold.altaria.command.CommandType.BOT
+        private val type = commands.CommandType.BOT
 
         private val permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }

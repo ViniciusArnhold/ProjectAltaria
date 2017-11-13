@@ -1,6 +1,6 @@
 package me.viniciusarnhold.altaria.utils
 
-import me.viniciusarnhold.altaria.command.MessageUtils
+import commands.MessageUtils
 import org.apache.logging.log4j.LogManager
 import sx.blah.discord.handle.obj.IMessage
 import sx.blah.discord.util.DiscordException

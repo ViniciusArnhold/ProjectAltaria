@@ -1,3 +1,5 @@
+@file:JvmName("Runner")
+
 package me.viniciusarnhold.altaria
 
 import me.viniciusarnhold.altaria.core.App

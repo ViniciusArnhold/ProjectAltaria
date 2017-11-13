@@ -52,7 +52,7 @@ class EventUtils private constructor() {
         @Throws(RateLimitException::class, DiscordException::class, MissingPermissionsException::class)
         fun sendIncorrectUsageMessage(client: IDiscordClient, channel: IChannel, command: String, reason: String) {
             MessageBuilder(client)
-                    .appendContent("Incorrect usage of command: ", MessageBuilder.Styles.BOLD)
+                    .appendContent("Incorrect usage of commands: ", MessageBuilder.Styles.BOLD)
                     .appendContent(command, MessageBuilder.Styles.BOLD)
                     .appendContent("\n")
                     .appendContent(reason, MessageBuilder.Styles.BOLD)

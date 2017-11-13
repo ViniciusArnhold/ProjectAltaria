@@ -1,11 +1,10 @@
-package me.viniciusarnhold.altaria.command.external.imdb
+package commands.external.imdb
 
 import com.google.common.collect.ImmutableSet
 import me.viniciusarnhold.altaria.apis.imdb.Imdb
-import me.viniciusarnhold.altaria.command.AbstractMessageCommand
-import me.viniciusarnhold.altaria.command.CommandType
-import me.viniciusarnhold.altaria.command.MessageUtils
-import me.viniciusarnhold.altaria.command.UserPermissions
+import commands.AbstractMessageCommand
+import commands.MessageUtils
+import commands.UserPermissions
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions
 import org.apache.logging.log4j.LogManager
@@ -21,7 +20,7 @@ class ImdbSearchCommand : AbstractMessageCommand() {
     init {
         this.command = "IMDBSearch"
         this.aliases = ImmutableSet.of("SearchIMDB", "SearchTV", "SearchMovies", "SearchMovie")
-        this.commandType = me.viniciusarnhold.altaria.command.CommandType.API
+        this.commandType = commands.CommandType.API
         this.description = "Search's on imdb by args"
         this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }
@@ -36,7 +35,7 @@ class ImdbSearchCommand : AbstractMessageCommand() {
             return
         }
         val command = event.message.content.trim()
-        logger.traceEntry("Received imdb search command {}", command)
+        logger.traceEntry("Received imdb search commands {}", command)
         val args = Commands.splitByWhitespace(command).toMutableList()
         try {
             if (args.size < 2) {

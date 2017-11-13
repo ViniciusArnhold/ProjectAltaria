@@ -55,8 +55,8 @@ object GoogleClientServiceFactory {
                         credential)
 
                         .setApplicationName(EventManager.instance.name)
-                        .setScriptRequestInitializer(ScriptRequestInitializer(GoogleAPIToken.value()))
-                        .setGoogleClientRequestInitializer(ScriptRequestInitializer(GoogleAPIToken.value()))
+                        .setScriptRequestInitializer(ScriptRequestInitializer(GoogleAPIToken))
+                        .setGoogleClientRequestInitializer(ScriptRequestInitializer(GoogleAPIToken))
                         .setHttpRequestInitializer(createHttpTimeout(credential, 380000))
                         .build()
             } as Script
@@ -76,8 +76,8 @@ object GoogleClientServiceFactory {
                         credential)
 
                         .setApplicationName(EventManager.instance.name)
-                        .setSheetsRequestInitializer(SheetsRequestInitializer(GoogleAPIToken.value()))
-                        .setGoogleClientRequestInitializer(SheetsRequestInitializer(GoogleAPIToken.value()))
+                        .setSheetsRequestInitializer(SheetsRequestInitializer(GoogleAPIToken))
+                        .setGoogleClientRequestInitializer(SheetsRequestInitializer(GoogleAPIToken))
                         .build()
             } as Sheets
 
@@ -95,8 +95,8 @@ object GoogleClientServiceFactory {
                         credential)
 
                         .setApplicationName(EventManager.instance.name)
-                        .setUrlshortenerRequestInitializer(UrlshortenerRequestInitializer(GoogleAPIToken.value()))
-                        .setGoogleClientRequestInitializer(UrlshortenerRequestInitializer(GoogleAPIToken.value()))
+                        .setUrlshortenerRequestInitializer(UrlshortenerRequestInitializer(GoogleAPIToken))
+                        .setGoogleClientRequestInitializer(UrlshortenerRequestInitializer(GoogleAPIToken))
                         .build()
             } as Urlshortener
 
@@ -114,8 +114,8 @@ object GoogleClientServiceFactory {
                         credential)
 
                         .setApplicationName(EventManager.instance.name)
-                        .setSurveysRequestInitializer(SurveysRequestInitializer(GoogleAPIToken.value()))
-                        .setGoogleClientRequestInitializer(SurveysRequestInitializer(GoogleAPIToken.value()))
+                        .setSurveysRequestInitializer(SurveysRequestInitializer(GoogleAPIToken))
+                        .setGoogleClientRequestInitializer(SurveysRequestInitializer(GoogleAPIToken))
                         .build()
             } as Surveys
 
@@ -178,8 +178,8 @@ object GoogleClientServiceFactory {
 
     init {
         googleSecrets.installed = GoogleClientSecrets.Details()
-                .setClientId(GoogleClientID.value())
-                .setClientSecret(GoogleClientSecret.value())
+                .setClientId(GoogleClientID)
+                .setClientSecret(GoogleClientSecret)
     }
 
     private lateinit var googleCredential: Credential

@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.command
+package commands
 
 import me.viniciusarnhold.altaria.utils.Actions
 import sx.blah.discord.handle.obj.IMessage

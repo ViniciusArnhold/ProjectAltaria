@@ -1,9 +1,8 @@
-package me.viniciusarnhold.altaria.command.common
+package commands.common
 
-import me.viniciusarnhold.altaria.command.AbstractMessageCommand
-import me.viniciusarnhold.altaria.command.CommandType
-import me.viniciusarnhold.altaria.command.MessageUtils
-import me.viniciusarnhold.altaria.command.UserPermissions
+import commands.AbstractMessageCommand
+import commands.MessageUtils
+import commands.UserPermissions
 import me.viniciusarnhold.altaria.utils.Actions
 import me.viniciusarnhold.altaria.utils.TimeUtils
 import org.apache.logging.log4j.LogManager
@@ -23,8 +22,8 @@ class PingCommand : AbstractMessageCommand() {
     init {
         this.command = "ping"
         this.aliases = emptySet<String>()
-        this.commandType = me.viniciusarnhold.altaria.command.CommandType.BOT
-        this.description = "Measures the time a command take to reach the bot"
+        this.commandType = commands.CommandType.BOT
+        this.description = "Measures the time a commands take to reach the bot"
         this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }
 
@@ -37,7 +36,7 @@ class PingCommand : AbstractMessageCommand() {
         if (!isPingCommand(event)) {
             return
         }
-        logger.traceEntry("Received ping command. {}", event)
+        logger.traceEntry("Received ping commands. {}", event)
 
         try {
             MessageUtils.getDefaultRequestBuilder(event.message)

@@ -36,7 +36,7 @@ class MessageReceivedEventReceiver private constructor() : IReceiver, IListener<
         val matcher = Regexes.BOT_COMMAND_NO_ARGS.pattern().matcher(text)
 
         if (!matcher.find()) {
-            logger.traceExit<String>("Message {} received but did not pass the command regex.", text)
+            logger.traceExit<String>("Message {} received but did not pass the commands regex.", text)
             return
         }
         logger.debug("Event receiver {} received commannd: {}", CLASS_NAME, matcher.group())

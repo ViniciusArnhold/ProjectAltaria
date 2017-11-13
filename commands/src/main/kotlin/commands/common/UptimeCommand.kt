@@ -1,9 +1,8 @@
-package me.viniciusarnhold.altaria.command.common
+package commands.common
 
-import me.viniciusarnhold.altaria.command.AbstractMessageCommand
-import me.viniciusarnhold.altaria.command.CommandType
-import me.viniciusarnhold.altaria.command.MessageUtils
-import me.viniciusarnhold.altaria.command.UserPermissions
+import commands.AbstractMessageCommand
+import commands.MessageUtils
+import commands.UserPermissions
 import me.viniciusarnhold.altaria.utils.Actions
 import me.viniciusarnhold.altaria.utils.TimeUtils
 import org.apache.logging.log4j.LogManager
@@ -19,7 +18,7 @@ class UptimeCommand : AbstractMessageCommand() {
     init {
         this.command = "uptime"
         this.aliases = emptySet<String>()
-        this.commandType = me.viniciusarnhold.altaria.command.CommandType.BOT
+        this.commandType = commands.CommandType.BOT
         this.description = "Measures the time this bot has been onnline"
         this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }
@@ -33,7 +32,7 @@ class UptimeCommand : AbstractMessageCommand() {
         if (!isUptimeCommand(event)) {
             return
         }
-        logger.traceEntry("Received uptime command {}", event)
+        logger.traceEntry("Received uptime commands {}", event)
 
         try {
             MessageUtils.getDefaultRequestBuilder(event.message)

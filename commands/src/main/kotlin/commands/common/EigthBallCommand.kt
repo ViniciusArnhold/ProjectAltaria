@@ -1,11 +1,10 @@
-package me.viniciusarnhold.altaria.command.common
+package commands.common
 
 import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableSet
-import me.viniciusarnhold.altaria.command.AbstractMessageCommand
-import me.viniciusarnhold.altaria.command.CommandType
-import me.viniciusarnhold.altaria.command.MessageUtils
-import me.viniciusarnhold.altaria.command.UserPermissions
+import commands.AbstractMessageCommand
+import commands.MessageUtils
+import commands.UserPermissions
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions
 import me.viniciusarnhold.altaria.utils.Timers
@@ -25,7 +24,7 @@ class EigthBallCommand : AbstractMessageCommand() {
     init {
         this.command = "8ball"
         this.aliases = ImmutableSet.of("magicBall", "eightball", "ball8")
-        this.commandType = me.viniciusarnhold.altaria.command.CommandType.GENERAL
+        this.commandType = commands.CommandType.GENERAL
         this.description = "Asks the magic eight ball for its wisdom."
         this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }
@@ -39,7 +38,7 @@ class EigthBallCommand : AbstractMessageCommand() {
         if (!isCommandForMe(event)) {
             return
         }
-        logger.traceEntry("Received magic ball command {}.", { event.message.content })
+        logger.traceEntry("Received magic ball commands {}.", { event.message.content })
 
         try {
             val args = Commands.splitByWhitespace(event.message.content.trim { it <= ' ' })

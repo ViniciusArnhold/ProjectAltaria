@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.command;
+package commands;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;

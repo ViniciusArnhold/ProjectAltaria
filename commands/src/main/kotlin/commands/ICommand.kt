@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.command
+package commands
 
 import java.util.*
 
@@ -13,7 +13,7 @@ interface ICommand {
 
     val description: String
 
-    val type: EnumSet<me.viniciusarnhold.altaria.command.CommandType>
+    val type: EnumSet<commands.CommandType>
 
     val permissions: EnumSet<UserPermissions>
 }

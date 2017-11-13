@@ -3,8 +3,8 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath(dependencyNotation = "org.junit.platform:junit-platform-gradle-plugin:${properties["junit_plugin_version"]}")
         classpath(dependencyNotation = "org.jetbrains.kotlin:kotlin-gradle-plugin:${properties["kotlin_version"]}")
+        classpath(dependencyNotation = "org.junit.platform:junit-platform-gradle-plugin:${properties["junit_plugin_version"]}")
     }
 }
 
@@ -38,6 +38,7 @@ subprojects {
     dependencies {
         //Kotlin lib
         "compile"("org.jetbrains.kotlin:kotlin-stdlib-jre8:${properties["kotlin_version"]}")
+        "compile"("org.jetbrains.kotlin:kotlin-reflect:${properties["kotlin_version"]}")
 
         //Test
         "testCompile"("org.junit.jupiter:junit-jupiter-api:${properties["junit_version"]}")
@@ -54,7 +55,7 @@ subprojects {
     configure<org.junit.platform.gradle.plugin.JUnitPlatformExtension> {
         filters {
             engines {
-                exclude(" junit -vintage")
+                exclude("junit-vintage")
             }
         }
     }

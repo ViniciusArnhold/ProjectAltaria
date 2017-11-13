@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.apis.objects
+package commands.external.xkcd
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import me.viniciusarnhold.altaria.apis.HttpManager

@@ -15,69 +15,7 @@ target/
 
 # Gradle:
 .idea/libraries
-
-# Mongo Explorer plugin:
-## File-based project format:
-## Plugin-specific files:
-
-# IntelliJ
-# mpeltonen/sbt-idea plugin
-# JIRA plugin
-# Crashlytics plugin (for Android Studio and IntelliJ)
-### Java template
-# BlueJ files
-# Mobile Tools for Java (J2ME)
-# Package Files #
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
-### TortoiseGit template
-# Project-level settings
-### SublimeText template
-# cache files for sublime text
-# workspace files are user-specific
-# project files should be checked into the repository, unless a significant
-# proportion of contributors will probably not be using SublimeText
-# *.sublime-project
-
-# sftp configuration file
-# Package control specific files
-# Sublime-github package stores a github token in this file
-# https://packagecontrol.io/packages/sublime-github
-### Eclipse template
-
-# Eclipse Core
-# External tool builders
-# Locally stored "Eclipse launch configurations"
-# PyDev specific (Python IDE for Eclipse)
-# CDT-specific (C/C++ Development Tooling)
-# JDT-specific (Eclipse Java Development Tools)
-# Java annotation processor (APT)
-# PDT-specific (PHP Development Tools)
-# sbteclipse plugin
-# Tern plugin
-# TeXlipse plugin
-# STS (Spring Tool Suite)
-# Code Recommenders
-### Linux template
-# temporary files which can be created if a process still has a handle open of a deleted file
-# KDE directory preferences
-# Linux trash folder which might appear on any partition or disk
-# .nfs files are created when an open file is removed but is still being accessed
-### Windows template
-# Windows image file caches
-# Folder config file
-# Recycle Bin used on file shares
-# Windows Installer files
-# Windows shortcuts
-### GitBook template
-# Node rules:
-## Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
-## Dependency directory
-## Commenting this out is preferred by some people, see
-## https://docs.npmjs.com/misc/faq#should-i-check-my-node_modules-folder-into-git
-# Book build output
-# eBook build output
-### NetBeans template
-/src/main/resources/properties/
-/altaria-main.log
+start/bot.properties
+**/altaria-*.log
 /out/
 /build/

@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.command
+package commands
 
 /**
  * Created by Vinicius.

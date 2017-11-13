@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.command.pool;
+package commands.pool;
 
 import org.junit.jupiter.api.Test;
 

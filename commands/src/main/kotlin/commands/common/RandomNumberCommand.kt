@@ -1,10 +1,9 @@
-package me.viniciusarnhold.altaria.command.common
+package commands.common
 
 import com.google.common.collect.ImmutableSet
-import me.viniciusarnhold.altaria.command.AbstractMessageCommand
-import me.viniciusarnhold.altaria.command.CommandType
-import me.viniciusarnhold.altaria.command.MessageUtils
-import me.viniciusarnhold.altaria.command.UserPermissions
+import commands.AbstractMessageCommand
+import commands.MessageUtils
+import commands.UserPermissions
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions
 import me.viniciusarnhold.altaria.utils.Timers
@@ -32,7 +31,7 @@ class RandomNumberCommand : AbstractMessageCommand() {
                 .addAll(COIN_ROLLS)
                 .build()
 
-        this.commandType = me.viniciusarnhold.altaria.command.CommandType.GENERAL
+        this.commandType = commands.CommandType.GENERAL
         this.description = "Generates a ranndom number, use dNUM for a shortcut."
         this.permissions = EnumSet.noneOf<UserPermissions>(UserPermissions::class.java)
     }
@@ -46,7 +45,7 @@ class RandomNumberCommand : AbstractMessageCommand() {
         if (!isCommandForMe(event)) {
             return
         }
-        logger.traceEntry("Received uptime command {}", event)
+        logger.traceEntry("Received uptime commands {}", event)
         try {
 
             val args = Commands.splitByWhitespace(event.message.content.trim { it <= ' ' })

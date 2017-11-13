@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentSkipListSet
 class CommandDelegator private constructor() {
 
     fun degelateCommand(event: MessageReceivedEvent, command: String, matchedText: String): Boolean {
-        val entryMessage = logger.traceEntry("CommandDelegator will delegate command {}.", matchedText)
+        val entryMessage = logger.traceEntry("CommandDelegator will delegate commands {}.", matchedText)
 
         var handleCount = 0
         for (handler in HANDLERS) {
@@ -27,7 +27,7 @@ class CommandDelegator private constructor() {
                     handleCount++
                 }
             } catch (e: Exception) {
-                logger.error("Handler " + handler.javaClass.simpleName + " failed to handle command.", e)
+                logger.error("Handler " + handler.javaClass.simpleName + " failed to handle commands.", e)
             }
 
         }

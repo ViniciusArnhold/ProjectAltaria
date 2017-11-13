@@ -28,7 +28,7 @@ class BotManager private constructor() : AutoCloseable {
         val client: IDiscordClient
         try {
             client = ClientBuilder()
-                    .withToken(ConfigurationManager.Configurations.BotToken.value())
+                    .withToken(ConfigurationManager.Configurations.BotToken)
                     .setDaemon(false)
                     .login()
         } catch (e: DiscordException) {
@@ -37,10 +37,10 @@ class BotManager private constructor() : AutoCloseable {
         }
 
         this.discordClient = client
-        this.discordClient!!.shards.forEach { s -> s.changeStatus(Status.game("IntelliJ IDEA")) }
+        this.discordClient!!.shards.forEach { s -> s.streaming("!alt help", "https://github.com/ViniciusArnhold/ProjectAltaria") }
 
         this.invite = BotInviteBuilder(discordClient)
-                .withClientID(ConfigurationManager.Configurations.ClientID.value().toString())
+                .withClientID(ConfigurationManager.Configurations.ClientID)
                 .withPermissions(EnumSet.of(Permissions.ADMINISTRATOR))
                 .build()
         println(MessageFormat.format("Bot Created, invitation link: {0}", invite))

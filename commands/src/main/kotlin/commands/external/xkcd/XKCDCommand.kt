@@ -3,7 +3,6 @@ package commands.external.xkcd
 import com.diffplug.common.base.Errors
 import com.fasterxml.jackson.databind.ObjectMapper
 import me.viniciusarnhold.altaria.apis.HttpManager
-import me.viniciusarnhold.altaria.apis.objects.XKCDComic
 import commands.*
 import me.viniciusarnhold.altaria.events.utils.Commands
 import me.viniciusarnhold.altaria.utils.Actions

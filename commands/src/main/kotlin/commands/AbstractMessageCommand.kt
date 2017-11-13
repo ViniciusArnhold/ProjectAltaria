@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.command
+package commands
 
 import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
 import java.util.*
@@ -11,12 +11,12 @@ import java.util.*
 abstract class AbstractMessageCommand protected constructor(override val command: String,
                                                             override val aliases: Set<String>,
                                                             override val description: String,
-                                                            override val type: EnumSet<me.viniciusarnhold.altaria.command.CommandType>,
-                                                            override val permissions: EnumSet<me.viniciusarnhold.altaria.command.UserPermissions>) : me.viniciusarnhold.altaria.command.IMessageCommand {
+                                                            override val type: EnumSet<commands.CommandType>,
+                                                            override val permissions: EnumSet<commands.UserPermissions>) : commands.IMessageCommand {
 
     protected fun isCommandForMe(event: MessageReceivedEvent): Boolean {
         return !event.message.channel.isPrivate &&
                 !event.message.author.isBot &&
-                me.viniciusarnhold.altaria.command.MessageUtils.isMyCommand(event.message, this)
+                commands.MessageUtils.isMyCommand(event.message, this)
     }
 }

@@ -1,4 +1,4 @@
-package me.viniciusarnhold.altaria.command
+package commands
 
 import me.viniciusarnhold.altaria.core.BotManager
 import me.viniciusarnhold.altaria.utils.Logs
@@ -125,7 +125,7 @@ object MessageUtils {
 
     fun handleDiscord4JException(logger: Logger, e: Exception, commandHandler: IMessageCommand, message: IMessage) {
         try {
-            logger.error("{} failed to handle command, a {} was captured",
+            logger.error("{} failed to handle commands, a {} was captured",
                     { commandHandler.javaClass.simpleName },
                     { e.javaClass.simpleName })
             logger.error(e)
