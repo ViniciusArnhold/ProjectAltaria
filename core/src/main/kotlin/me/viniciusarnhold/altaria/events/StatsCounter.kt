@@ -25,7 +25,7 @@ object StatsCounter {
     }
 
     fun addCommandHandleTime(watch: Stopwatch) {
-        commandHandleTime.add(Objects.requireNonNull(watch).elapsed(TimeUnit.NANOSECONDS))
+        commandHandleTime.add(watch.elapsed(TimeUnit.NANOSECONDS))
     }
 
     fun addCommandHanndleTime(nanos: Long) {

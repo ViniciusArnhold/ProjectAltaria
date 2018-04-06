@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit.*
 /**
  * Created by Vinicius.
 
- * @since ${PROJECT_VERSION}
+ * @since 1.0
  */
 class TimeUtils private constructor() {
 
@@ -21,7 +21,7 @@ class TimeUtils private constructor() {
 
         private val TIME_FORMAT = "%2s Days %2s Hours %2s Minutes %2s Seconds %4s Milliseconds"
 
-        fun formatAsElapsed(): String {
+        fun formatElapsed(): String {
             var elapsed = Duration.ofMillis(ManagementFactory.getRuntimeMXBean().uptime)
             val days = elapsed.toDays()
             elapsed = elapsed.minusDays(days)

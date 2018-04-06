@@ -1,6 +1,7 @@
 description = "Runner Project - ${project.version}"
 
 plugins {
+    kotlin("jvm")
     application
 }
 
@@ -9,7 +10,7 @@ application {
 }
 
 dependencies {
-    "compile"(project(":core"))
-    "runtimeOnly"(project(":commands"))
-    "compile"("commons-cli:commons-cli:${properties["commons_cli_version"]}")
+    compile(project(":core"))
+    runtimeOnly(project(":commands"))
+    compile("commons-cli:commons-cli:${properties["commons_cli_version"]}")
 }

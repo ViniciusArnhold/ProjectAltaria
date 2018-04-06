@@ -25,21 +25,17 @@ import com.google.api.services.urlshortener.Urlshortener
 import com.google.api.services.urlshortener.UrlshortenerRequestInitializer
 import com.google.api.services.urlshortener.UrlshortenerScopes
 import me.viniciusarnhold.altaria.events.EventManager
-import me.viniciusarnhold.altaria.utils.Timers
-import me.viniciusarnhold.altaria.utils.configuration.ConfigurationManager.Configurations.Companion.GoogleAPIToken
-import me.viniciusarnhold.altaria.utils.configuration.ConfigurationManager.Configurations.Companion.GoogleClientID
-import me.viniciusarnhold.altaria.utils.configuration.ConfigurationManager.Configurations.Companion.GoogleClientSecret
+import me.viniciusarnhold.altaria.utils.configuration.ConfigurationManager
 import org.apache.logging.log4j.LogManager
 import java.io.IOException
 import java.lang.RuntimeException
 import java.security.GeneralSecurityException
 import java.util.concurrent.ConcurrentHashMap
-import java.util.concurrent.TimeUnit
 
 /**
  * Created by Vinicius.
 
- * @since ${PROJECT_VERSION}
+ * @since 1.0
  */
 object GoogleClientServiceFactory {
 
@@ -49,19 +45,21 @@ object GoogleClientServiceFactory {
         get() {
             val service = cacheClients.computeIfAbsent(Script::class.java
             ) { clazz ->
+                //FIXME Null assert
+                val token = ConfigurationManager.currentInstance!!.config.bot.api.google.token
+
                 Script.Builder(
                         secureHttpTransport(),
                         JacksonFactory.getDefaultInstance(),
                         credential)
 
                         .setApplicationName(EventManager.instance.name)
-                        .setScriptRequestInitializer(ScriptRequestInitializer(GoogleAPIToken))
-                        .setGoogleClientRequestInitializer(ScriptRequestInitializer(GoogleAPIToken))
+                        .setScriptRequestInitializer(ScriptRequestInitializer(token))
+                        .setGoogleClientRequestInitializer(ScriptRequestInitializer(token))
                         .setHttpRequestInitializer(createHttpTimeout(credential, 380000))
                         .build()
             } as Script
 
-            Timers.CacheCleanUpService.schedule(cacheClients, Script::class.java, service, 30, TimeUnit.MINUTES)
             return service
         }
 
@@ -70,23 +68,24 @@ object GoogleClientServiceFactory {
         get() {
             val service = cacheClients.computeIfAbsent(Sheets::class.java
             ) { clazz ->
-                Sheets.Builder(
-                        secureHttpTransport(),
-                        JacksonFactory.getDefaultInstance(),
-                        credential)
+                //FIXME Null assert
+                val token = ConfigurationManager.currentInstance!!.config.bot.api.google.token
 
+                Sheets.Builder(secureHttpTransport(), JacksonFactory.getDefaultInstance(), credential)
                         .setApplicationName(EventManager.instance.name)
-                        .setSheetsRequestInitializer(SheetsRequestInitializer(GoogleAPIToken))
-                        .setGoogleClientRequestInitializer(SheetsRequestInitializer(GoogleAPIToken))
+                        .setSheetsRequestInitializer(SheetsRequestInitializer(token))
+                        .setGoogleClientRequestInitializer(SheetsRequestInitializer(token))
                         .build()
             } as Sheets
 
-            Timers.CacheCleanUpService.schedule(cacheClients, Sheets::class.java, service, 30, TimeUnit.MINUTES)
             return service
         }
 
     val urlShortenerService: Urlshortener
         get() {
+            //FIXME Null assert
+            val token = ConfigurationManager.currentInstance!!.config.bot.api.google.token
+
             val service = cacheClients.computeIfAbsent(Urlshortener::class.java
             ) {
                 Urlshortener.Builder(
@@ -94,18 +93,20 @@ object GoogleClientServiceFactory {
                         JacksonFactory.getDefaultInstance(),
                         credential)
 
-                        .setApplicationName(EventManager.instance.name)
-                        .setUrlshortenerRequestInitializer(UrlshortenerRequestInitializer(GoogleAPIToken))
-                        .setGoogleClientRequestInitializer(UrlshortenerRequestInitializer(GoogleAPIToken))
+                        .setApplicationName("altaria-bot")
+                        .setUrlshortenerRequestInitializer(UrlshortenerRequestInitializer(token))
+                        .setGoogleClientRequestInitializer(UrlshortenerRequestInitializer(token))
                         .build()
             } as Urlshortener
 
-            Timers.CacheCleanUpService.schedule(cacheClients, Urlshortener::class.java, service, 30, TimeUnit.MINUTES)
             return service
         }
 
     val surveyService: Surveys
         get() {
+            //FIXME Null assert
+            val token = ConfigurationManager.currentInstance!!.config.bot.api.google.token
+
             val service = cacheClients.computeIfAbsent(Surveys::class.java
             ) {
                 Surveys.Builder(
@@ -114,16 +115,14 @@ object GoogleClientServiceFactory {
                         credential)
 
                         .setApplicationName(EventManager.instance.name)
-                        .setSurveysRequestInitializer(SurveysRequestInitializer(GoogleAPIToken))
-                        .setGoogleClientRequestInitializer(SurveysRequestInitializer(GoogleAPIToken))
+                        .setSurveysRequestInitializer(SurveysRequestInitializer(token))
+                        .setGoogleClientRequestInitializer(SurveysRequestInitializer(token))
                         .build()
             } as Surveys
 
-            Timers.CacheCleanUpService.schedule(cacheClients, Urlshortener::class.java, service, 30, TimeUnit.MINUTES)
             return service
         }
 
-    //Will not occur
     val credential: Credential by lazy {
         try {
             val flow = GoogleAuthorizationCodeFlow.Builder(
@@ -177,9 +176,12 @@ object GoogleClientServiceFactory {
     private val requiredScopes: Set<String> = setOf(ScriptScopes.all(), SheetsScopes.all(), SurveysScopes.all(), UrlshortenerScopes.all()).flatMap { it.asIterable() }.filterNotNull().toSet()
 
     init {
+        //FIXME Null assert
+        val googleConfig = ConfigurationManager.currentInstance!!.config.bot.api.google
+
         googleSecrets.installed = GoogleClientSecrets.Details()
-                .setClientId(GoogleClientID)
-                .setClientSecret(GoogleClientSecret)
+                .setClientId(googleConfig.id)
+                .setClientSecret(googleConfig.secret)
     }
 
     private lateinit var googleCredential: Credential

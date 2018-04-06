@@ -1,9 +1,6 @@
 package me.viniciusarnhold.altaria.events
 
-import commands.IMessageCommand
-import commands.external.imdb.ImdbSearchCommand
-import commands.pool.PoolCommand
-import commands.random.XKCDCommand
+import me.viniciusarnhold.altaria.api.IMessageCommand
 import me.viniciusarnhold.altaria.events.interfaces.IReceiver
 import me.viniciusarnhold.altaria.events.receivers.MessageReceivedEventReceiver
 import org.apache.logging.log4j.LogManager
@@ -22,14 +19,6 @@ class EventManager : IModule {
 
     override fun enable(client: IDiscordClient): Boolean {
         discordClient = client
-
-        discordClient!!.dispatcher.registerListener(PoolCommand.instance)
-        discordClient!!.dispatcher.registerListener(InviteCommand())
-        discordClient!!.dispatcher.registerListener(PingCommand())
-        discordClient!!.dispatcher.registerListener(UptimeCommand())
-        discordClient!!.dispatcher.registerListener(EigthBallCommand())
-        discordClient!!.dispatcher.registerListener(RandomNumberCommand())
-        discordClient!!.dispatcher.registerListener(ImdbSearchCommand())
 
         ServiceLoader.load(IMessageCommand::class.java).forEach(discordClient!!.dispatcher::registerListener)
 

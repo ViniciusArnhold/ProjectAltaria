@@ -12,7 +12,7 @@ import sx.blah.discord.util.RequestBuilder.IRequestAction
 /**
  * Created by Vinicius.
 
- * @since ${PROJECT_VERSION}
+ * @since 1.0
  */
 object Actions {
 

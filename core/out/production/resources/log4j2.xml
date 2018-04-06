@@ -9,7 +9,7 @@
         </File>
     </Appenders>
     <Loggers>
-        <Logger name="commands.pool.PoolCommand" level="debug">
+        <Logger name="me.viniciusarnhold.altaria.commands.pool.PoolCommand" level="debug">
             <AppenderRef ref="FileLog"/>
         </Logger>
         <Logger name="me.viniciusarnhold" level="warn">

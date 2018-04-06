@@ -6,7 +6,7 @@ import com.omertron.imdbapi.ImdbApi
 /**
  * Created by Vinicius.
 
- * @since ${PROJECT_VERSION}
+ * @since 1.0
  */
 object Imdb {
 

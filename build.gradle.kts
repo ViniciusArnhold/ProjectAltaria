@@ -1,11 +1,17 @@
-buildscript {
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath(dependencyNotation = "org.jetbrains.kotlin:kotlin-gradle-plugin:${properties["kotlin_version"]}")
-        classpath(dependencyNotation = "org.junit.platform:junit-platform-gradle-plugin:${properties["junit_plugin_version"]}")
-    }
+import org.gradle.internal.impldep.org.junit.experimental.categories.Categories.CategoryFilter.include
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.junit.platform.gradle.plugin.JUnitPlatformExtension
+
+apply {
+    from(file("gradle/scripts/version.gradle.kts"))
+}
+
+plugins {
+    id("org.sonarqube").version("2.4")
+    id("build-dashboard")
+    base
+    id("org.junit.platform.gradle.plugin").apply(false)
+    kotlin("jvm").version("1.1.51")
 }
 
 allprojects {
@@ -21,15 +27,13 @@ allprojects {
     }
 }
 
-plugins {
-    id("org.sonarqube").version("2.4")
-    id("build-dashboard")
+tasks.withType<Wrapper> {
+    gradleVersion = "4.6-20180105235841+0000"
 }
 
 subprojects {
-
     apply {
-        plugin("kotlin")
+        plugin("org.jetbrains.kotlin.jvm")
         plugin("project-report")
         plugin("org.junit.platform.gradle.plugin")
         plugin("jacoco")
@@ -37,30 +41,36 @@ subprojects {
 
     dependencies {
         //Kotlin lib
-        "compile"("org.jetbrains.kotlin:kotlin-stdlib-jre8:${properties["kotlin_version"]}")
-        "compile"("org.jetbrains.kotlin:kotlin-reflect:${properties["kotlin_version"]}")
+        implementation(kotlin("stdlib"))
+        implementation(kotlin("reflect"))
 
         //Test
-        "testCompile"("org.junit.jupiter:junit-jupiter-api:${properties["junit_version"]}")
-        "testRuntimeOnly"("org.junit.jupiter:junit-jupiter-engine:${properties["junit_version"]}")
-        "testRuntime"("org.junit.platform:junit-platform-launcher:${properties["junit_platform_version"]}")
-        "testCompile"("org.assertj:assertj-core:${properties["assertj_version"]}")
-        "testCompile"("org.mockito:mockito-core:${properties["mockito_version"]}")
+        testImplementation("org.jetbrains.spek:spek-api:${properties["spek_version"]}")
+        testRuntimeOnly("org.jetbrains.spek:spek-junit-platform-engine:${properties["spek_version"]}")
+
+        testCompile("org.junit.jupiter:junit-jupiter-api:${properties["junit_version"]}")
+        testCompile("org.junit.jupiter:junit-jupiter-engine:${properties["junit_version"]}")
+        testCompile("org.junit.platform:junit-platform-launcher:${properties["junit_platform_version"]}")
+
+
+        testImplementation("org.assertj:assertj-core:${properties["assertj_version"]}")
+
+        testImplementation("org.mockito:mockito-core:${properties["mockito_version"]}")
 
         //Log4j
-        "compile"("org.apache.logging.log4j:log4j-core:${properties["log4j_version"]}")
-        "compile"("org.apache.logging.log4j:log4j-api:${properties["log4j_version"]}")
+        implementation("org.apache.logging.log4j:log4j-core:${properties["log4j_version"]}")
+        implementation("org.apache.logging.log4j:log4j-api:${properties["log4j_version"]}")
     }
 
-    configure<org.junit.platform.gradle.plugin.JUnitPlatformExtension> {
+    configure<JUnitPlatformExtension> {
         filters {
             engines {
-                exclude("junit-vintage")
+                include("spek")
             }
         }
     }
-}
 
-tasks.withType<Wrapper> {
-    gradleVersion = "4.1-rc-1"
+    tasks.withType(KotlinCompile::class.java) {
+        kotlinOptions.jvmTarget = "1.8"
+    }
 }

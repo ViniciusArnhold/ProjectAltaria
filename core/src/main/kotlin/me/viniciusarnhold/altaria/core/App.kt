@@ -17,20 +17,10 @@ object App {
     @JvmStatic fun execute(args: Array<String>): ExecutionResult {
 
         try {
-            /*System.setProperty("log4j.configurationFile", "log4j2.xml")
-
-            try {
-                (LogManager.getContext(false) as org.apache.logging.log4j.core.LoggerContext).configLocation = getSystemResource("log4j2.xml").toURI()
-            } catch (e: URISyntaxException) {
-                e.printStackTrace()
-                throw RuntimeException(e)
-            }
-
-            */
             //App configuration
             val logger = LogManager.getLogger()
 
-            //Config third partys
+            //Configuration third partys
             DurianPlugins.register(Errors.Plugins.Log::class.java, Errors.Plugins.Log { Logs.forThrowable(it) })
 
             logger.traceEntry()

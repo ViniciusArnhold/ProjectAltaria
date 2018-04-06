@@ -4,7 +4,6 @@ import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import java.nio.file.Files
 import java.nio.file.Path
-import java.util.*
 
 /**
  * @author Vinicius Pegorini Arnhold.
@@ -23,12 +22,8 @@ class APIConfiguration private constructor(val client: Client,
             if (!Files.exists(file) || !Files.isRegularFile(file)) {
                 throw IllegalArgumentException("Invalid file $file")
             }
-            val props = Properties()
-            props.load(Files.newBufferedReader(file))
 
-            val apiConfig = mapper.readPropertiesAs<APIConfiguration>(props, APIConfiguration::class.java)
-
-            return apiConfig
+            return mapper.readValue(Files.newBufferedReader(file), APIConfiguration::class.java)
         }
     }
 
@@ -38,7 +33,12 @@ class APIConfiguration private constructor(val client: Client,
     )
 
     class Bot(val token: String,
-              val api: Apis) {
+              val api: Apis,
+              val command: Commands = Commands()) {
+
+        class Commands(val stats: Stats = Stats()) {
+            class Stats(val incrementWithError: Boolean = false)
+        }
 
         class Apis(val league: LeagueAPI, val google: GoogleAPI) {
 

@@ -6,7 +6,7 @@ import me.viniciusarnhold.altaria.events.handler.SimpleCommandHandler
 import me.viniciusarnhold.altaria.events.interfaces.ICommandHandler
 import me.viniciusarnhold.altaria.events.utils.Commands
 import org.apache.logging.log4j.LogManager
-import sx.blah.discord.handle.impl.events.MessageReceivedEvent
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
 import java.util.*
 import java.util.concurrent.ConcurrentSkipListSet
 

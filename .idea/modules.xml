@@ -3,6 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/altaria.iml" filepath="$PROJECT_DIR$/.idea/modules/altaria.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/altaria_main.iml" filepath="$PROJECT_DIR$/.idea/modules/altaria_main.iml" group="altaria" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/altaria_test.iml" filepath="$PROJECT_DIR$/.idea/modules/altaria_test.iml" group="altaria" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/commands/commands.iml" filepath="$PROJECT_DIR$/.idea/modules/commands/commands.iml" group="commands" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/commands/commands_main.iml" filepath="$PROJECT_DIR$/.idea/modules/commands/commands_main.iml" group="commands" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/commands/commands_test.iml" filepath="$PROJECT_DIR$/.idea/modules/commands/commands_test.iml" group="commands" />

@@ -6,7 +6,7 @@ import me.viniciusarnhold.altaria.events.utils.Regexes
 import org.apache.logging.log4j.LogManager
 import sx.blah.discord.api.events.Event
 import sx.blah.discord.api.events.IListener
-import sx.blah.discord.handle.impl.events.MessageReceivedEvent
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
 
 /**
  * Created by Vinicius.

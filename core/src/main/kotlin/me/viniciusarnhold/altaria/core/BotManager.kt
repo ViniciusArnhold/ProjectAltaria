@@ -2,14 +2,16 @@ package me.viniciusarnhold.altaria.core
 
 import me.viniciusarnhold.altaria.events.EventManager
 import me.viniciusarnhold.altaria.exceptions.BotLoginFailedException
+import me.viniciusarnhold.altaria.utils.configuration.APIConfiguration
 import me.viniciusarnhold.altaria.utils.configuration.ConfigurationManager
 import org.apache.logging.log4j.LogManager
+import org.apache.logging.log4j.Logger
 import sx.blah.discord.api.ClientBuilder
 import sx.blah.discord.api.IDiscordClient
 import sx.blah.discord.handle.obj.Permissions
-import sx.blah.discord.handle.obj.Status
 import sx.blah.discord.util.BotInviteBuilder
 import sx.blah.discord.util.DiscordException
+import java.nio.file.Paths
 import java.text.MessageFormat
 import java.util.*
 
@@ -25,10 +27,13 @@ class BotManager private constructor() : AutoCloseable {
     fun start() {
         LOGGER.traceEntry()
 
+        val config = ConfigurationManager(APIConfiguration.fromFile(Paths.get(System.getenv("ALTARIA_BOT_PROPERTIES") ?: throw Exception("Env ``ALTARIA_BOT_PROPERTIES`` not set"))))
+        ConfigurationManager.currentInstance = config
+
         val client: IDiscordClient
         try {
             client = ClientBuilder()
-                    .withToken(ConfigurationManager.Configurations.BotToken)
+                    .withToken(config.config.bot.token)
                     .setDaemon(false)
                     .login()
         } catch (e: DiscordException) {
@@ -40,7 +45,7 @@ class BotManager private constructor() : AutoCloseable {
         this.discordClient!!.shards.forEach { s -> s.streaming("!alt help", "https://github.com/ViniciusArnhold/ProjectAltaria") }
 
         this.invite = BotInviteBuilder(discordClient)
-                .withClientID(ConfigurationManager.Configurations.ClientID)
+                .withClientID(config.config.client.id)
                 .withPermissions(EnumSet.of(Permissions.ADMINISTRATOR))
                 .build()
         println(MessageFormat.format("Bot Created, invitation link: {0}", invite))
@@ -52,9 +57,7 @@ class BotManager private constructor() : AutoCloseable {
     }
 
     private fun addEventManager() {
-
         discordClient!!.moduleLoader.loadModule(EventManager())
-
     }
 
     fun inviteUrl(): String {
@@ -64,22 +67,17 @@ class BotManager private constructor() : AutoCloseable {
 
     @Throws(Exception::class)
     override fun close() {
-        LOGGER.traceEntry()
         if (discordClient == null) {
             LOGGER.warn("Method close called on 'null' discordClient")
             return
         }
         LOGGER.warn(" Disconecting from Discord.")
         discordClient!!.logout()
-
-        LOGGER.traceExit()
     }
 
     companion object {
+        val LOGGER: Logger = LogManager.getLogger()
 
-        val LOGGER = LogManager.getLogger()
-
-        val EMAIL = "altaria.bot@gmail.com"
         val BOT_NAME = "AltariaBot"
         val REPO_URL = "https://github.com/ViniciusArnhold/ProjectAltaria"
         val instance = BotManager()

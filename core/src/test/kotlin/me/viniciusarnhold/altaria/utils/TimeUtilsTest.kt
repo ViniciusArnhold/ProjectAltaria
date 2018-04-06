@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 /**
  * Created by Vinicius.
 
- * @since ${PROJECT_VERSION}
+ * @since 1.0
  */
 internal class TimeUtilsTest {
 

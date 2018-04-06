@@ -16,7 +16,7 @@ import org.apache.logging.log4j.LogManager
 import org.jsoup.HttpStatusException
 import org.jsoup.Jsoup
 import org.jsoup.select.Elements
-import sx.blah.discord.handle.impl.events.MessageReceivedEvent
+import sx.blah.discord.handle.impl.events.guild.channel.message.MessageReceivedEvent
 import sx.blah.discord.util.DiscordException
 import sx.blah.discord.util.MessageBuilder
 import sx.blah.discord.util.MessageBuilder.Styles

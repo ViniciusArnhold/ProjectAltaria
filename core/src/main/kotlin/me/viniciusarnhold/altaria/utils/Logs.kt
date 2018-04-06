@@ -7,7 +7,7 @@ import org.apache.logging.log4j.LogManager
 /**
  * Created by Vinicius.
 
- * @since ${PROJECT_VERSION}
+ * @since 1.0
  */
 object Logs {
 
